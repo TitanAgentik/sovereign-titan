@@ -1,0 +1,24 @@
+[package]
+name = "profit_guard"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Sovereign Titan OS — Immutable On-Chain Profit Guard & Conditional Jito Tip Enforcer"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "profit_guard"
+
+[[bin]]
+name = "generate_idl"
+path = "src/bin/generate_idl.rs"
+
+[dependencies]
+anchor-lang.workspace = true
+borsh.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+bs58.workspace = true
+thiserror.workspace = true

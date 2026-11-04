@@ -1,0 +1,54 @@
+# ==============================================================================
+# SOVEREIGN TITAN v2.0 — GITIGNORE (SECURITY & BUILD ARTIFACTS)
+# ==============================================================================
+
+# 1. CRITICAL SECRETS, PRIVATE KEYS & WALLET KEYPAIRS (NEVER COMMIT)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*keypair*.json
+*secret*.json
+wallets/
+keys/
+vault_keys/
+
+# 2. PYTHON VIRTUALENV & CACHES
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# 3. RUST / CARGO / ANCHOR TARGETS
+target/
+**/target/
+.anchor/
+test-ledger/
+
+# 4. NODE / TAURI / VITE FRONTEND ARTIFACTS
+node_modules/
+**/node_modules/
+**/dist/
+**/dist-ssr/
+*.local
+
+# 5. RUNTIME DATABASES, LOGS & TEMPORARY IPC SOCKETS
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.log
+*.mmap
+*.sock
+/tmp/

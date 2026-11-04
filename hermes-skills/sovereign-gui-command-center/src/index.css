@@ -1,0 +1,457 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #060a12;
+  --panel: rgba(11, 18, 29, 0.94);
+  --panel2: rgba(15, 24, 38, 0.96);
+  --line: #182638;
+  --line2: #243852;
+  --text: #e6eef8;
+  --muted: #8b9fb7;
+  --dim: #566b84;
+  --mint: #35e0b0;
+  --amber: #f2b33d;
+  --red: #ef6069;
+  --blue: #5b9dff;
+  --violet: #a78bfa;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  color-scheme: dark;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+@keyframes titanScanbeam {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes titanPulseEmerald {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(53, 224, 176, 0.5), 0 0 6px rgba(53, 224, 176, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(53, 224, 176, 0), 0 0 10px rgba(53, 224, 176, 0.75);
+  }
+}
+
+@keyframes titanPulseCrimson {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 96, 105, 0.4), 0 0 5px rgba(239, 96, 105, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(239, 96, 105, 0), 0 0 9px rgba(239, 96, 105, 0.55);
+  }
+}
+
+@keyframes titanRadarSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes titanPacketFlow {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes titanFloatSubtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1300px 520px at 78% -10%, rgba(53, 224, 176, 0.055), transparent 60%),
+    radial-gradient(1000px 440px at 14% -5%, rgba(91, 157, 255, 0.05), transparent 60%);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Tabular monospace numerals so live prices and counters never shift width */
+.font-mono,
+.tabular-nums,
+table,
+th,
+td,
+code,
+pre,
+input,
+select {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Institutional 6-KPI Summary Strip */
+.titan-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 1350px) {
+  .titan-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .titan-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.titan-kpi-card {
+  background: linear-gradient(165deg, rgba(13, 21, 34, 0.96), rgba(8, 13, 22, 0.96));
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px 10px 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.titan-kpi-card:hover {
+  border-color: var(--line2);
+  box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.65);
+}
+
+.titan-kpi-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--kc, var(--mint));
+  opacity: 0.9;
+}
+
+/* Sleek Institutional Panel Card */
+.titan-panel {
+  background: linear-gradient(180deg, rgba(12, 19, 31, 0.95), rgba(8, 13, 22, 0.97));
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.65);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.titan-panel:hover {
+  border-color: #21344d;
+}
+
+.titan-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(14, 23, 37, 0.75);
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Crisp Sub-Navigation Tab Bars */
+.titan-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: rgba(8, 13, 22, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+.titan-subnav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.16s ease;
+}
+
+.titan-subnav-btn:hover {
+  color: var(--text);
+  background: rgba(24, 38, 56, 0.55);
+}
+
+.titan-subnav-btn.active,
+.titan-subnav-btn.is-active {
+  color: #ffffff;
+  background: rgba(53, 224, 176, 0.14);
+  border-color: rgba(53, 224, 176, 0.55);
+  box-shadow: inset 0 -2px 0 var(--mint);
+}
+
+/* Clean Institutional Badge Pills */
+.titan-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  background: rgba(24, 38, 56, 0.65);
+  color: var(--text);
+  border: 1px solid rgba(40, 62, 92, 0.7);
+  white-space: nowrap;
+}
+
+.titan-pill.positive {
+  background: rgba(53, 224, 176, 0.14);
+  color: #35e0b0;
+  border-color: rgba(53, 224, 176, 0.45);
+}
+
+.titan-pill.negative,
+.titan-pill.red {
+  background: rgba(239, 96, 105, 0.15);
+  color: #ff7a82;
+  border-color: rgba(239, 96, 105, 0.45);
+}
+
+.titan-pill.amber,
+.titan-pill.warning {
+  background: rgba(242, 179, 61, 0.15);
+  color: #f5c156;
+  border-color: rgba(242, 179, 61, 0.45);
+}
+
+.titan-pill.cyan,
+.titan-pill.blue {
+  background: rgba(91, 157, 255, 0.15);
+  color: #7ab2ff;
+  border-color: rgba(91, 157, 255, 0.45);
+}
+
+.titan-pill.purple {
+  background: rgba(167, 139, 250, 0.15);
+  color: #b9a2fc;
+  border-color: rgba(167, 139, 250, 0.45);
+}
+
+/* Subtle Animated Scanbeam Bar */
+.titan-scanline-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.titan-scanline-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 32%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(53, 224, 176, 0.07),
+    rgba(91, 157, 255, 0.08),
+    transparent
+  );
+  animation: titanScanbeam 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Interactive Toggle Button & Switch Styles */
+button {
+  cursor: pointer;
+  transition: all 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.titan-led-on {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: #35e0b0;
+  animation: titanPulseEmerald 2.2s infinite;
+}
+
+.titan-led-off {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background-color: #ef6069;
+  animation: titanPulseCrimson 2.6s infinite;
+}
+
+.titan-switch-track {
+  display: inline-flex;
+  align-items: center;
+  width: 30px;
+  height: 15px;
+  border-radius: 9999px;
+  padding: 2px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.titan-switch-track.is-on {
+  background: rgba(53, 224, 176, 0.25);
+  border: 1px solid #35e0b0;
+}
+
+.titan-switch-track.is-off {
+  background: rgba(239, 96, 105, 0.18);
+  border: 1px solid rgba(239, 96, 105, 0.6);
+}
+
+.titan-switch-thumb {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease;
+}
+
+.titan-switch-track.is-on .titan-switch-thumb {
+  transform: translateX(14px);
+  background: #35e0b0;
+  box-shadow: 0 0 5px #35e0b0;
+}
+
+.titan-switch-track.is-off .titan-switch-thumb {
+  transform: translateX(0px);
+  background: #ef6069;
+}
+
+.titan-radar-spin {
+  transform-origin: center;
+  animation: titanRadarSweep 7s linear infinite;
+}
+
+.titan-packet-line {
+  stroke-dasharray: 8 6;
+  animation: titanPacketFlow 2.2s linear infinite;
+}
+
+.titan-float-card {
+  animation: titanFloatSubtle 5s ease-in-out infinite;
+}
+
+/* Main 2-Column Cockpit Grid */
+.titan-cockpit-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .titan-cockpit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Institutional Table Styles */
+.titan-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.titan-table th {
+  text-align: left;
+  padding: 9px 14px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: rgba(13, 21, 34, 0.85);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.titan-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(24, 38, 56, 0.7);
+  vertical-align: middle;
+}
+
+.titan-table tbody tr {
+  transition: background-color 0.14s ease;
+}
+
+.titan-table tbody tr:hover {
+  background: rgba(53, 224, 176, 0.04);
+}
+
+/* Clean Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060a12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #213247;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #35e0b0;
+}
+
+input[type="range"] {
+  height: 5px;
+  cursor: pointer;
+}

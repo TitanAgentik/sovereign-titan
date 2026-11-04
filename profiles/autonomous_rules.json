@@ -1,0 +1,13 @@
+{
+  "synthesized_at_epoch_s": 1793358505.426044,
+  "analyzed_shark_count": 2,
+  "dominant_archetypes": {
+    "INSIDER_ACCUMULATOR": 1,
+    "POST_MIGRATION_DIP_BUYER": 1
+  },
+  "consensus_min_liquidity_usd": 35000.0,
+  "consensus_first_tp_multiple": 2.5,
+  "consensus_frontrun_tp_factor": 0.9,
+  "consensus_max_slippage_drift_pct": 8.0,
+  "deep_reasoner_summary": "Synthesized cross-shark playbooks: front-run master exit at 0.90x first_tp_multiple and enforce +8.0% max slippage drift from master fill."
+}

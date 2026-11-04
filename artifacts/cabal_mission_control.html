@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sovereign Titan — Cabal Forensics &amp; Slot-Zero Mission Control</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    input[type="range"] {
+      accent-color: #10b981;
+      cursor: pointer;
+    }
+    .pulse-dot {
+      animation: pulseRing 2s infinite ease-in-out;
+    }
+    @keyframes pulseRing {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(1.18); }
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6">
+
+  <!-- TOP TELEMETRY HEADER -->
+  <header class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 mb-5 shadow-sm">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
+            YELLOWSTONE gRPC + JITO SHREDSTREAM LIVE
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 mono">
+            x402 MCP: check_cabal_risk (0.01 USDC)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30 mono">
+            jitodontfront Index-0 Protected
+          </span>
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold mt-2 tracking-tight text-[var(--foreground)]">
+          Sovereign Titan — Multi-Hop Shadow Cluster De-Anonymizer &amp; Slot-Zero Execution Engine
+        </h1>
+        <p class="text-sm text-[var(--muted-foreground)] mt-0.5">
+          Real-time graph forensics exposing the <span class="font-semibold text-[var(--foreground)]">&ldquo;0% Dev Hold&rdquo; illusion</span> across 30 staggered shadow wallets, Helius Identity boundary pruning, and dynamic Jito Slot-0 bundle calibration.
+        </p>
+      </div>
+
+      <!-- Live KPI Summary Pill Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 shrink-0">
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg px-3 py-2">
+          <div class="text-xs text-[var(--muted-foreground)]">Official Dev ($w_c$)</div>
+          <div id="kpi-dev-supply" class="text-base font-bold mono text-emerald-400">0.00% (Decoy)</div>
+          <div class="text-xs text-[var(--muted-foreground)]">Naive Scanner: &ldquo;SAFE&rdquo;</div>
+        </div>
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg px-3 py-2">
+          <div class="text-xs text-[var(--muted-foreground)]">True Shadow Cluster</div>
+          <div id="kpi-shadow-supply" class="text-base font-bold mono text-amber-400">18.40% (30 Wallets)</div>
+          <div id="kpi-shadow-hops" class="text-xs text-[var(--muted-foreground)]">Hops 1&ndash;3 via funderblue</div>
+        </div>
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg px-3 py-2">
+          <div class="text-xs text-[var(--muted-foreground)]">Cabal-Hunter Gate</div>
+          <div id="kpi-cabal-score" class="text-base font-bold mono text-cyan-400">Score: 54 / 100</div>
+          <div id="kpi-cabal-verdict" class="text-xs text-emerald-400 font-semibold">WHITELISTED RUNNER</div>
+        </div>
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg px-3 py-2">
+          <div class="text-xs text-[var(--muted-foreground)]">Cluster Tripwire Status</div>
+          <div id="kpi-tripwire-state" class="text-base font-bold mono text-emerald-400">ARMED (&lt;50ms)</div>
+          <div id="kpi-tripwire-sub" class="text-xs text-[var(--muted-foreground)]">OFI: +1.8&sigma; | VPIN: 0.34</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION 1: INTERACTIVE 3D / 2D FORCE-DIRECTED GRAPH & FORENSIC INSPECTOR -->
+  <section class="grid grid-cols-1 xl:grid-cols-12 gap-5 mb-6">
+    <!-- Left 8 Cols: Interactive Network Canvas -->
+    <div class="xl:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm flex flex-col">
+      <!-- Toolbar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-[var(--border)]">
+        <div>
+          <h2 class="text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+            <span>1. Zero-Percent Dev Illusion &amp; Multi-Hop Shadow Cluster De-Anonymizer</span>
+          </h2>
+          <p class="text-xs text-[var(--muted-foreground)]">
+            Drag nodes in 2D or orbit in 3D. Observe how <code class="mono text-cyan-400">funderblue</code> seeds 30 Hop 1&ndash;3 shadow wallets while <code class="mono text-emerald-400">w_c (0% Dev)</code> acts as a clean decoy.
+          </p>
+        </div>
+
+        <!-- View & Profile Controls -->
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="inline-flex rounded-lg border border-[var(--border)] bg-[var(--background)] p-0.5">
+            <button id="btn-view-2d" onclick="setGraphDimension('2D')" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition">
+              2D Force Graph
+            </button>
+            <button id="btn-view-3d" onclick="setGraphDimension('3D')" class="px-2.5 py-1 rounded-md text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition">
+              3D Isometric Orbit
+            </button>
+          </div>
+
+          <select id="select-cluster-profile" onchange="switchClusterProfile(this.value)" class="bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-2.5 py-1.5 text-xs font-semibold mono">
+            <option value="runner">Profile: Serial Runner Syndicate (C_runner_01 &mdash; 18.4% Supply)</option>
+            <option value="rug">Profile: Parasitic Rug Cabal ($RL / BATON &mdash; 64.2% Supply)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Action Trigger Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btn-mcp-scan" onclick="runCabalHunterScan()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 transition flex items-center gap-1.5">
+            <span>&#x1F50D;</span>
+            <span>Run Cabal-Hunter MCP <code class="mono">check_cabal_risk</code> (x402 0.01 USDC)</span>
+          </button>
+          <button id="btn-tripwire-sim" onclick="triggerSellTripwireSimulation()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition flex items-center gap-1.5">
+            <span>&#x26A1;</span>
+            <span>Fire Cluster Sell-Tripwire Auto-Exit Simulation</span>
+          </button>
+          <button onclick="resetGraphSimulation()" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[var(--background)] hover:opacity-80 text-[var(--muted-foreground)] border border-[var(--border)] transition">
+            Reset Layout
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs text-[var(--muted-foreground)] mono">
+          <span id="canvas-mode-indicator">Mode: 2D Force Physics (Drag Enabled)</span>
+        </div>
+      </div>
+
+      <!-- Interactive Canvas Container -->
+      <div class="relative w-full rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--background)]" style="height: 490px;">
+        <canvas id="cabalGraphCanvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+
+        <!-- Overlay Legend Top-Left -->
+        <div class="absolute top-3 left-3 bg-[var(--card)]/90 backdrop-blur-sm border border-[var(--border)] rounded-lg p-2.5 space-y-1.5 pointer-events-none max-w-xs">
+          <div class="text-xs font-bold text-[var(--foreground)] uppercase tracking-wider">Topology Node Legend</div>
+          <div class="grid grid-cols-1 gap-1 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-purple-400 inline-block border border-white/40"></span>
+              <span>Upstream Root Treasury (<code class="mono">funderblue</code> $P_{\text{root}}$)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-400 inline-block border border-white/40"></span>
+              <span>Official &ldquo;0% Dev&rdquo; Deployer ($w_c = 0.0\%$)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-slate-400 inline-block border border-dashed border-white/60"></span>
+              <span>Helius Whitelisted Boundary (Binance / Wintermute)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-cyan-400 inline-block"></span>
+              <span>Hop 1 (10) &amp; Hop 2 (10) Relay Wallets</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
+              <span>Hop 3 Shadow Cluster (10 Accumulators = <span id="legend-pct">18.4%</span>)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-fuchsia-400 inline-block"></span>
+              <span>Slot-0 Jito Bundle (<code class="mono">b_launch</code>) &amp; Sniper Links</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+              <span>Downstream CEX Deposit Sink (Profit Convergence)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overlay Scan Banner Bottom-Left -->
+        <div id="scan-status-banner" class="absolute bottom-3 left-3 right-3 bg-[var(--card)]/95 backdrop-blur-sm border border-[var(--border)] rounded-lg px-3.5 py-2 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span id="scan-badge" class="px-2 py-0.5 rounded text-xs font-bold mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">READY</span>
+            <span id="scan-message" class="text-xs text-[var(--foreground)] mono">
+              Click any node to inspect multi-hop funding path, or trigger x402 Cabal-Hunter MCP scan.
+            </span>
+          </div>
+          <div id="scan-Equation" class="text-xs text-[var(--muted-foreground)] mono">
+            &Sigma; Shadow Supply = 18.40% | Helius Pruned: 2 CEX/MM Nodes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right 4 Cols: Selected Node Forensic Inspector + Live x402 / Tripwire Telemetry Log -->
+    <div class="xl:col-span-4 flex flex-col gap-4">
+      <!-- Selected Node Deep Inspector Card -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm">
+        <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-[var(--border)]">
+          <h3 class="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
+            Node Forensic Inspector
+          </h3>
+          <span id="inspector-role-badge" class="px-2 py-0.5 rounded text-xs font-semibold mono bg-purple-500/20 text-purple-300 border border-purple-500/30">
+            ROOT TREASURY
+          </span>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <div class="flex justify-between items-center">
+            <span class="text-[var(--muted-foreground)]">Node Identifier:</span>
+            <span id="insp-label" class="font-bold text-[var(--foreground)] mono">funderblue ($P_root)</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[var(--muted-foreground)]">Solana Address:</span>
+            <span id="insp-address" class="mono text-cyan-400">FndR8xK9mP3vL2qW7nB4cT6yH1jZ9bL2</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[var(--muted-foreground)]">Hop Depth &amp; Layer:</span>
+            <span id="insp-hop" class="mono font-semibold text-[var(--foreground)]">Hop 0 (Upstream Root)</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[var(--muted-foreground)]">Token Supply Held:</span>
+            <span id="insp-supply" class="mono font-bold text-amber-400">0.00% (Funding Only)</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[var(--muted-foreground)]">Entry Slot &amp; Bot Flags:</span>
+            <span id="insp-flags" class="mono text-emerald-400">Pre-Launch (-142s Δt)</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[var(--muted-foreground)]">Helius Identity Status:</span>
+            <span id="insp-helius" class="mono text-[var(--foreground)]">Unlabeled Syndicate Treasury</span>
+          </div>
+          <div class="pt-2 border-t border-[var(--border)]">
+            <div class="text-[var(--muted-foreground)] mb-1">Forensic Graph Evidence:</div>
+            <p id="insp-notes" class="text-xs text-[var(--foreground)] bg-[var(--background)] p-2.5 rounded-lg border border-[var(--border)] leading-relaxed">
+              Seeds 10 Hop-1 relay wallets via split SOL transfers 2–4 minutes prior to Pump.fun token creation, completely bypassing direct links to the 0% Dev deployer ($w_c$).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cabal-Hunter MCP JSON & Tripwire Execution Feed -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 shadow-sm flex-1 flex flex-col">
+        <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-[var(--border)]">
+          <div>
+            <h3 class="text-sm font-bold text-[var(--foreground)] uppercase tracking-wider">
+              MCP &amp; Tripwire Telemetry Console
+            </h3>
+            <p class="text-xs text-[var(--muted-foreground)]">
+              Live x402 <code class="mono">check_cabal_risk</code> &amp; sub-50ms exit stream
+            </p>
+          </div>
+          <span id="console-status-pill" class="px-2 py-0.5 rounded text-xs font-semibold mono bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            STREAMING
+          </span>
+        </div>
+
+        <pre id="forensic-console" class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-3 text-xs mono text-[var(--foreground)] overflow-y-auto custom-scroll flex-1" style="max-height: 270px; white-space: pre-wrap;"></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: INTERACTIVE SLOT-ZERO DYNAMIC JITO TIP CALCULATOR & BUNDLE INSPECTOR -->
+  <section class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 md:p-5 mb-6 shadow-sm">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 pb-4 mb-4 border-b border-[var(--border)]">
+      <div>
+        <h2 class="text-base md:text-lg font-bold text-[var(--foreground)]">
+          2. Interactive Slot-Zero Dynamic Jito Tip Calculator &amp; Bundle Inspector
+        </h2>
+        <p class="text-xs text-[var(--muted-foreground)]">
+          Real-time calculation of <span class="mono font-semibold text-[var(--foreground)]">T_dynamic = max(T_min, P_95(T_50) &times; (1 + &alpha; &middot; V_curve))</span> with <code class="mono text-amber-400">jitodontfront</code> Index-0 protection and 5-region Block Engine race telemetry.
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="rotateJitoTipAccount()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition mono">
+          &#x1F504; Rotate Random Jito Tip PDA
+        </button>
+        <button onclick="runLatencyRace()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition mono">
+          &#x1F3C1; Fire 7-Endpoint Relay Race
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      <!-- Left 5 Cols: Interactive Sliders & Execution Mode -->
+      <div class="lg:col-span-5 space-y-4 bg-[var(--background)] border border-[var(--border)] rounded-xl p-4">
+        <div class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+          Slot-Zero Auction Parameters
+        </div>
+
+        <!-- Slider 1: Trailing 50-Block P95 Tip Floor -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="font-medium text-[var(--foreground)]">Trailing 50-Block $P_{95}(\bar{T}_{50})$ Tip Floor</span>
+            <span id="val-p95" class="mono font-bold text-emerald-400">0.0060 SOL</span>
+          </div>
+          <input id="slider-p95" type="range" min="0.001" max="0.050" step="0.001" value="0.006" oninput="updateJitoCalculator()" class="w-full" />
+          <div class="flex justify-between text-xs text-[var(--muted-foreground)] mono mt-0.5">
+            <span>0.001 SOL (Quiet)</span>
+            <span>0.025 SOL</span>
+            <span>0.050 SOL (Hyper-Contested)</span>
+          </div>
+        </div>
+
+        <!-- Slider 2: Bonding Curve Fill Velocity V_curve -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="font-medium text-[var(--foreground)]">Bonding Curve Fill Velocity $V_{\text{curve}} = \Delta\text{SOL}/\Delta t$</span>
+            <span id="val-vcurve" class="mono font-bold text-cyan-400">8.4 SOL/s</span>
+          </div>
+          <input id="slider-vcurve" type="range" min="0.5" max="25.0" step="0.1" value="8.4" oninput="updateJitoCalculator()" class="w-full" />
+          <div class="flex justify-between text-xs text-[var(--muted-foreground)] mono mt-0.5">
+            <span>0.5 SOL/s (Organic)</span>
+            <span>12.5 SOL/s</span>
+            <span>25.0 SOL/s (Instant Grad)</span>
+          </div>
+        </div>
+
+        <!-- Slider 3: Syndicate Aggressiveness Scalar alpha -->
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="font-medium text-[var(--foreground)]">Syndicate Aggressiveness Scalar $\alpha$</span>
+            <span id="val-alpha" class="mono font-bold text-amber-400">1.35</span>
+          </div>
+          <input id="slider-alpha" type="range" min="0.50" max="3.00" step="0.05" value="1.35" oninput="updateJitoCalculator()" class="w-full" />
+          <div class="flex justify-between text-xs text-[var(--muted-foreground)] mono mt-0.5">
+            <span>0.50 (Conservative)</span>
+            <span>1.75 (Runner Follow)</span>
+            <span>3.00 (Emergency Exit)</span>
+          </div>
+        </div>
+
+        <!-- Execution Mode Toggle -->
+        <div class="pt-2 border-t border-[var(--border)]">
+          <label class="block text-xs font-medium text-[var(--foreground)] mb-2">
+            Dispatch Execution Mode
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button id="mode-bundle" onclick="setExecutionMode('bundle')" class="p-2.5 rounded-lg border text-left transition bg-emerald-500/15 border-emerald-500/40 text-[var(--foreground)]">
+              <div class="text-xs font-bold mono text-emerald-400">sendBundle (1..5 Tx Dynamic)</div>
+              <div class="text-xs text-[var(--muted-foreground)] mt-0.5">100% Jito Tip in Tx_k &bull; Atomic Revert Protection</div>
+            </button>
+            <button id="mode-split" onclick="setExecutionMode('split')" class="p-2.5 rounded-lg border text-left transition bg-[var(--card)] border-[var(--border)] text-[var(--muted-foreground)]">
+              <div class="text-xs font-bold mono text-cyan-400">sendTransaction (70/30 Split)</div>
+              <div class="text-xs text-[var(--muted-foreground)] mt-0.5">70% Priority Fee + 30% Jito Tip Dual-Lane</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 7 Cols: Live Formula Readout, Instruction Layout & 7-Endpoint Latency Race -->
+      <div class="lg:col-span-7 flex flex-col gap-4">
+        <!-- Formula & Output KPI Strip -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+              Dynamic Tip Law Evaluation ($T_{\text{min}} = 0.0010\text{ SOL}$)
+            </div>
+            <div id="formula-substitution" class="text-xs mono text-cyan-400 font-semibold">
+              max(0.0010, 0.0060 &times; (1 + 1.35 &times; 8.4)) = 0.07404 SOL
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5">
+              <div class="text-xs text-[var(--muted-foreground)]">Dynamic Tip ($T_{\text{dynamic}}$)</div>
+              <div id="out-tdynamic-sol" class="text-base font-bold mono text-emerald-400">0.0740 SOL</div>
+              <div id="out-tdynamic-usd" class="text-xs text-[var(--muted-foreground)] mono">74,040,000 lamports (~$13.70)</div>
+            </div>
+            <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5">
+              <div class="text-xs text-[var(--muted-foreground)]">Priority / Tip Allocation</div>
+              <div id="out-split-desc" class="text-sm font-bold mono text-amber-400">100% Jito Bundle Tip</div>
+              <div id="out-split-sub" class="text-xs text-[var(--muted-foreground)] mono">0 CU Price / 0.0740 SOL Tip</div>
+            </div>
+            <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5">
+              <div class="text-xs text-[var(--muted-foreground)]">Velocity Surge Multiplier</div>
+              <div id="out-multiplier" class="text-base font-bold mono text-cyan-400">12.34x</div>
+              <div class="text-xs text-[var(--muted-foreground)] mono">(1 + &alpha; &middot; V_curve)</div>
+            </div>
+            <div class="bg-[var(--card)] border border-[var(--border)] rounded-lg p-2.5">
+              <div class="text-xs text-[var(--muted-foreground)]">Slot-0 Inclusion Prob.</div>
+              <div id="out-win-prob" class="text-base font-bold mono text-emerald-400">98.4%</div>
+              <div id="out-cu-price" class="text-xs text-[var(--muted-foreground)] mono">180,000 CU Budget</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Verification of Atomic Instruction & Account Layout -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+              Verified Bundle Instruction &amp; Account Layout (Anti-Sandwich &amp; ALT Safe)
+            </span>
+            <span class="text-xs mono text-emerald-400 font-semibold">v0 LUT Compliant</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+            <div class="bg-[var(--card)] border border-emerald-500/40 rounded-lg p-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold mono text-emerald-400">Tx 1 [Index 0 Guard]</span>
+                <span class="px-1.5 py-0.5 rounded text-xs mono bg-emerald-500/15 text-emerald-300">Read-Only</span>
+              </div>
+              <div class="text-xs mono text-[var(--foreground)] mt-1 break-all">
+                Acct[0]: jitodontfront111111111111111111111111111111
+              </div>
+              <div class="text-xs text-[var(--muted-foreground)] mt-1">
+                + Deterministic PDA Swap (<code class="mono">findProgramAddress([&quot;bonding-curve&quot;, mint])</code>)
+              </div>
+            </div>
+
+            <div class="bg-[var(--card)] border border-cyan-500/40 rounded-lg p-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold mono text-cyan-400">Tx 2..k-1 [Co-Bundle]</span>
+                <span class="px-1.5 py-0.5 rounded text-xs mono bg-cyan-500/15 text-cyan-300">Slippage Guard</span>
+              </div>
+              <div class="text-xs mono text-[var(--foreground)] mt-1">
+                Exact-Out / Min-Out Bonding Curve Swap Legs
+              </div>
+              <div class="text-xs text-[var(--muted-foreground)] mt-1">
+                Zero RPC <code class="mono">getAccountInfo</code> calls on hot path; 100% offline ATA derivation.
+              </div>
+            </div>
+
+            <div class="bg-[var(--card)] border border-amber-500/40 rounded-lg p-2.5">
+              <div class="flex items-center justify-between">
+                <span id="txk-title" class="text-xs font-bold mono text-amber-400">Tx k [Jito Tip Leg]</span>
+                <span class="px-1.5 py-0.5 rounded text-xs mono bg-amber-500/15 text-amber-300">EXCLUDED FROM ALT</span>
+              </div>
+              <div id="active-jito-pda" class="text-xs mono text-[var(--foreground)] mt-1 break-all">
+                PDA: 96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5
+              </div>
+              <div id="txk-sub" class="text-xs text-[var(--muted-foreground)] mt-1">
+                Direct <code class="mono">SystemProgram::Transfer</code> (0.0740 SOL)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-Region Jito + QuickNode Lil' JIT + Astralane Latency Race Bars -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+              Multi-Region Block Engine &amp; Shred Relay Fan-Out Race
+            </span>
+            <span id="winning-relay-badge" class="text-xs mono font-bold text-emerald-400">
+              Winner: Astralane Iris (1.8 ms)
+            </span>
+          </div>
+          <div id="relay-race-bars" class="space-y-2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SERIAL RUNNER SYNDICATE VS PARASITIC RUG CABAL LEADERBOARD & CALIBRATION MATRIX -->
+  <section class="grid grid-cols-1 xl:grid-cols-12 gap-5">
+    <!-- Left 6 Cols: Quantitative Calibration Matrix Table -->
+    <div class="xl:col-span-6 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 md:p-5 shadow-sm">
+      <div class="pb-3 mb-3 border-b border-[var(--border)]">
+        <h2 class="text-base md:text-lg font-bold text-[var(--foreground)]">
+          3A. Serial Runner Syndicate vs. Parasitic Rug Cabal Calibration Matrix
+        </h2>
+        <p class="text-xs text-[var(--muted-foreground)]">
+          Exact quantitative decision boundaries separating profitable copy-trade syndicates from fast-dump rug cabals ($RL / BATON).
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-[var(--border)] text-xs uppercase text-[var(--muted-foreground)]">
+              <th class="py-2.5 pr-3">Forensic Dimension</th>
+              <th class="py-2.5 px-3 text-emerald-400">Serial Runner Syndicate (Follow Early)</th>
+              <th class="py-2.5 pl-3 text-rose-400">Parasitic Rug Cabal ($RL / BATON Veto)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[var(--border)] text-xs">
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-[var(--foreground)]">Graduation Rate (PumpSwap / Raydium)</td>
+              <td class="py-2.5 px-3 mono text-emerald-400 font-bold">&gt; 25.0% (Observed: 38.4%)</td>
+              <td class="py-2.5 pl-3 mono text-rose-400 font-bold">&le; 1.0% (Observed: 0.4%)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-[var(--foreground)]">Cluster Median Hold Duration</td>
+              <td class="py-2.5 px-3 mono text-emerald-400 font-bold">&gt; 10 mins (24.5m Multi-Wave)</td>
+              <td class="py-2.5 pl-3 mono text-rose-400 font-bold">&lt; 2 mins (47s Single-Wave Dump)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-[var(--foreground)]">Copy-Trade Win Rate &amp; Multiple</td>
+              <td class="py-2.5 px-3 mono text-emerald-400 font-bold">60%&ndash;70% Win | 2.0x&ndash;5.0x Multiple</td>
+              <td class="py-2.5 pl-3 mono text-rose-400 font-bold">&lt; 8% Win | 0.05x&ndash;0.30x (-88% EV)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-[var(--foreground)]">Cabal-Hunter MCP Gate (<code class="mono">cabal_score</code>)</td>
+              <td class="py-2.5 px-3 mono text-cyan-400 font-semibold">cabal_score &lt; 65 OR Whitelisted Runner Override</td>
+              <td class="py-2.5 pl-3 mono text-rose-400 font-semibold">cabal_score &ge; 65 (Unwhitelisted &rarr; HARD VETO)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-[var(--foreground)]">Shadow Cluster Supply ($\Sigma_{\text{shadow}}$)</td>
+              <td class="py-2.5 px-3 mono text-[var(--foreground)]">12%&ndash;22% (30 Hop-3 Wallets, 0% Dev Decoy)</td>
+              <td class="py-2.5 pl-3 mono text-rose-400">45%&ndash;80% (Concentrated Sybil Supply Lock)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-[var(--foreground)]">Phase-1 Exit Trigger (OFI / VPIN)</td>
+              <td class="py-2.5 px-3 mono text-amber-400">OFI &lt; -2.0&sigma; OR VPIN &gt; 0.80 OR &ge;1.5% Cluster Sell</td>
+              <td class="py-2.5 pl-3 mono text-rose-400">Pre-Entry Blocked at Slot 0 (Zero Capital Deployed)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right 6 Cols: Interactive Syndicate & Cabal Leaderboard (Click to Load into Graph & Calculator) -->
+    <div class="xl:col-span-6 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 md:p-5 shadow-sm flex flex-col">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-[var(--border)]">
+        <div>
+          <h2 class="text-base md:text-lg font-bold text-[var(--foreground)]">
+            3B. Live Indexed Syndicate &amp; Rug Cabal Leaderboard
+          </h2>
+          <p class="text-xs text-[var(--muted-foreground)]">
+            Click any cluster row to load its funding topology and Slot-0 velocity profile into Mission Control.
+          </p>
+        </div>
+        <span class="px-2.5 py-1 rounded-full text-xs font-semibold mono bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+          Click Row to Inspect
+        </span>
+      </div>
+
+      <div class="overflow-x-auto flex-1">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-[var(--border)] text-xs uppercase text-[var(--muted-foreground)]">
+              <th class="py-2 pr-2">Cluster ID / Root</th>
+              <th class="py-2 px-2">Classification</th>
+              <th class="py-2 px-2">Grad Rate</th>
+              <th class="py-2 px-2">Med. Hold</th>
+              <th class="py-2 px-2">Win / Mult</th>
+              <th class="py-2 pl-2">MCP Gate</th>
+            </tr>
+          </thead>
+          <tbody id="syndicate-leaderboard-body" class="divide-y divide-[var(--border)] text-xs"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ============================================================================
+    // 1. MULTI-HOP SHADOW CLUSTER GRAPH DATA (36 NODES: ROOT, 0% DEV, 2 WHITELIST,
+    //    10 HOP-1, 10 HOP-2, 10 HOP-3 SHADOW WALLETS, BUNDLE HUB, CEX SINK)
+    // ============================================================================
+    const JITO_TIP_PDAS = [
+      "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5",
+      "HFqU5x63VTqvQss8hp11i4wVV8bD44PvwucfZ2bU7gRe",
+      "Cw8CFyM9FkoMi7K7Crf6HNQqf4uEMzpKw6QNghXLvLkY",
+      "ADaUMid9yfUytqMBgopwjb2DTLSokTSzL1zt6iGPaS49",
+      "DfXygSm4jCyNCybVYYK6DwvWqjKee8pbDmJGcLWNDXjh",
+      "ADuUkR4vqLUMWXxW9gh6D6L8pMSawimctcNZ5pGwDcEt",
+      "DttWaMuVvTiduZRnguLF7jNxTgiMBZ1hyAumKUiL2KRL",
+      "3AVi9Tg9Uo68tJfuvoKvqKNWKkC5wPdSSdeBnizKZ6jT"
+    ];
+    let currentJitoTipIndex = 0;
+    let currentExecutionMode = "bundle";
+    let graphDimension = "2D";
+    let activeClusterProfile = "runner";
+    let selectedNodeId = "root_funderblue";
+    let tripwireFired = false;
+    let scanHighlightStep = -1;
+
+    // Orbit angles for 3D isometric view
+    let orbitYaw = 0.55;
+    let orbitPitch = 0.42;
+    let isDraggingCanvas = false;
+    let draggedNode = null;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    const SYNDICATE_PROFILES = {
+      runner: {
+        id: "C_runner_01",
+        name: "Serial Runner Syndicate (funderblue)",
+        devSupply: "0.00% (Decoy)",
+        shadowSupply: "18.40% (30 Wallets)",
+        shadowPctNum: 18.4,
+        cabalScore: 54,
+        verdict: "WHITELISTED RUNNER",
+        verdictColor: "text-emerald-400",
+        p95: 0.006,
+        vcurve: 8.4,
+        alpha: 1.35
+      },
+      rug: {
+        id: "C_rug_01",
+        name: "Parasitic Rug Cabal ($RL / BATON)",
+        devSupply: "0.00% (Decoy)",
+        shadowSupply: "64.20% (30 Wallets)",
+        shadowPctNum: 64.2,
+        cabalScore: 94,
+        verdict: "HARD VETO (RUG CABAL)",
+        verdictColor: "text-rose-400",
+        p95: 0.018,
+        vcurve: 19.5,
+        alpha: 2.40
+      }
+    };
+
+    const LEADERBOARD_DATA = [
+      {
+        id: "C_runner_01",
+        root: "funderblue.sol",
+        profileKey: "runner",
+        type: "Serial Runner",
+        badgeClass: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+        gradRate: "38.4%",
+        holdTime: "24.5m",
+        winMult: "66.8% / 3.4x",
+        mcpGate: "Score 54 (ALLOW)",
+        p95: 0.006,
+        vcurve: 8.4,
+        alpha: 1.35
+      },
+      {
+        id: "C_runner_02",
+        root: "tokyo_whale.sol",
+        profileKey: "runner",
+        type: "Serial Runner",
+        badgeClass: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+        gradRate: "31.2%",
+        holdTime: "18.2m",
+        winMult: "63.5% / 2.8x",
+        mcpGate: "Score 68 (WHITELIST OVERRIDE)",
+        p95: 0.008,
+        vcurve: 11.2,
+        alpha: 1.55
+      },
+      {
+        id: "C_runner_03",
+        root: "sol_architect.sol",
+        profileKey: "runner",
+        type: "Serial Runner",
+        badgeClass: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+        gradRate: "27.9%",
+        holdTime: "14.0m",
+        winMult: "61.0% / 2.3x",
+        mcpGate: "Score 49 (ALLOW)",
+        p95: 0.005,
+        vcurve: 6.8,
+        alpha: 1.20
+      },
+      {
+        id: "C_rug_01",
+        root: "$RL / BATON Cabal",
+        profileKey: "rug",
+        type: "Parasitic Rug",
+        badgeClass: "bg-rose-500/15 text-rose-400 border-rose-500/30",
+        gradRate: "0.4%",
+        holdTime: "47s",
+        winMult: "4.2% / 0.12x",
+        mcpGate: "Score 94 (HARD VETO)",
+        p95: 0.018,
+        vcurve: 19.5,
+        alpha: 2.40
+      },
+      {
+        id: "C_rug_02",
+        root: "0%-Dev Sybil Mill",
+        profileKey: "rug",
+        type: "Parasitic Rug",
+        badgeClass: "bg-rose-500/15 text-rose-400 border-rose-500/30",
+        gradRate: "0.8%",
+        holdTime: "72s",
+        winMult: "6.1% / 0.18x",
+        mcpGate: "Score 89 (HARD VETO)",
+        p95: 0.014,
+        vcurve: 16.0,
+        alpha: 2.10
+      }
+    ];
+
+    const nodes = [];
+    const edges = [];
+
+    function buildTopologyGraph() {
+      nodes.length = 0;
+      edges.length = 0;
+      const isRug = activeClusterProfile === "rug";
+      const totalShadowSupply = isRug ? 64.2 : 18.4;
+      const perWalletSupply = (totalShadowSupply / 30).toFixed(2);
+
+      // 1. Upstream Root Treasury ("funderblue")
+      nodes.push({
+        id: "root_funderblue",
+        label: "funderblue (P_root)",
+        shortLabel: "funderblue",
+        address: "FndR8xK9mP3vL2qW7nB4cT6yH1jZ9bL2",
+        role: "ROOT TREASURY",
+        hop: 0,
+        supplyPct: 0.0,
+        flags: "Upstream Root (-142s Δt)",
+        heliusTag: "Unlabeled Syndicate Root",
+        notes: "Seeds 10 Hop-1 relay wallets via split SOL transfers before token minting. Never interacts directly with the 0% Dev deployer wallet.",
+        x: 420, y: 65, z: 180, vx: 0, vy: 0, radius: 13, color: "#c084fc"
+      });
+
+      // 2. Official "0% Dev" Deployer Wallet (w_c)
+      nodes.push({
+        id: "dev_zero_pct",
+        label: "0% Dev Deployer (w_c)",
+        shortLabel: "0% Dev (w_c)",
+        address: "Dev0x0009kL4pQ8mW2xR7vN1cT5yH4k9P",
+        role: "0% DEV DECOY",
+        hop: 1,
+        supplyPct: 0.0,
+        flags: "Mint Authority Revoked | 0.00% Hold",
+        heliusTag: "Clean Ephemeral Deployer",
+        notes: "Holds 0.00% supply at launch so naive retail scanners report '0% Dev Hold — Safe!', while 30 Hop-3 shadow wallets capture " + totalShadowSupply + "% supply.",
+        x: 165, y: 125, z: 95, vx: 0, vy: 0, radius: 12, color: "#34d399"
+      });
+
+      // 3. Helius Whitelisted Boundary Nodes (Binance Hot Wallet & Wintermute MM)
+      nodes.push({
+        id: "whitelist_binance",
+        label: "Binance Hot Wallet 2",
+        shortLabel: "Binance Hot [PRUNED]",
+        address: "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9",
+        role: "HELIUS WHITELIST BOUNDARY",
+        hop: 0,
+        supplyPct: 0.0,
+        flags: "V_whitelist Pruned Stop-Node",
+        heliusTag: "exchange_hot_wallet (Binance)",
+        notes: "Pruned by Helius Identity API boundary filter during multi-hop DFS traversal so shared CEX withdrawals do not false-positive merge unrelated traders.",
+        x: 120, y: 55, z: 180, vx: 0, vy: 0, radius: 10, color: "#94a3b8", isBoundary: true
+      });
+
+      nodes.push({
+        id: "whitelist_wintermute",
+        label: "Wintermute Institutional MM",
+        shortLabel: "Wintermute MM [PRUNED]",
+        address: "Wint9xL4mQ8vP2kR7nB3cT6yH1jZ2mQ1",
+        role: "HELIUS WHITELIST BOUNDARY",
+        hop: 0,
+        supplyPct: 0.0,
+        flags: "V_whitelist Pruned Stop-Node",
+        heliusTag: "institutional_mm (Wintermute)",
+        notes: "Whitelisted market-maker entity excluded from cabal graph expansion via Helius Identity tag check.",
+        x: 695, y: 55, z: 180, vx: 0, vy: 0, radius: 10, color: "#94a3b8", isBoundary: true
+      });
+
+      // 4. Slot-0 Jito Bundle Hub (b_launch)
+      nodes.push({
+        id: "jito_bundle_hub",
+        label: "Slot-0 Jito Bundle (b_launch)",
+        shortLabel: "Slot-0 b_launch",
+        address: "Bundle0x88f2a9c4e1b7d3091f44c8a2b1",
+        role: "SLOT-0 JITO BUNDLE",
+        hop: 1,
+        supplyPct: 0.0,
+        flags: "1_BundleBot = 1 | Atomic 5-Tx Tip",
+        heliusTag: "Jito Block Engine Bundle",
+        notes: "Co-bundles the 0% Dev token creation transaction with the first wave of Hop-3 shadow buy transactions in Slot 0.",
+        x: 245, y: 270, z: 20, vx: 0, vy: 0, radius: 11, color: "#e879f9"
+      });
+
+      // 5. Downstream CEX Deposit Sink Node
+      nodes.push({
+        id: "cex_deposit_sink",
+        label: "Downstream CEX Deposit Sink",
+        shortLabel: "CEX Sink (Convergence)",
+        address: "CEXSink7xQ9mL2vP8kR4nB1cT6yH9xQ9",
+        role: "PROFIT CONVERGENCE SINK",
+        hop: 4,
+        supplyPct: 0.0,
+        flags: "Post-Sell SOL Convergence Sink",
+        heliusTag: "Dedicated CEX Deposit Forwarder",
+        notes: "All 30 shadow wallets route realized SOL profits into this single downstream CEX deposit address after exits, proving single-entity control.",
+        x: 420, y: 440, z: -180, vx: 0, vy: 0, radius: 13, color: "#f43f5e"
+      });
+
+      // Pruned boundary links
+      edges.push({ source: "whitelist_binance", target: "root_funderblue", type: "pruned" });
+      edges.push({ source: "whitelist_wintermute", target: "root_funderblue", type: "pruned" });
+      edges.push({ source: "dev_zero_pct", target: "jito_bundle_hub", type: "bundle" });
+
+      // 6. Generate 30 Shadow Cluster Wallets: 10 Hop-1, 10 Hop-2, 10 Hop-3
+      for (let i = 0; i < 10; i++) {
+        const spreadX = 110 + i * 64;
+        const hop1Id = `hop1_${i + 1}`;
+        const hop2Id = `hop2_${i + 1}`;
+        const hop3Id = `hop3_${i + 1}`;
+
+        // Hop 1 wallet
+        nodes.push({
+          id: hop1Id,
+          label: `Hop-1 Relay #${i + 1}`,
+          shortLabel: `H1-${i + 1}`,
+          address: `H1x${i + 1}9kL4mP8vQ2rW7nB3cT6yH1jZ${10 + i}`,
+          role: "HOP-1 SHADOW RELAY",
+          hop: 1,
+          supplyPct: Number((perWalletSupply * 0.35).toFixed(2)),
+          flags: `Δt = -${95 - i * 4}s SOL Split`,
+          heliusTag: "Sybil Relay Hop 1",
+          notes: `Receives split SOL directly from funderblue (${(4.2 + i * 0.3).toFixed(1)} SOL) and forwards to Hop-2 dispersal layer.`,
+          x: spreadX, y: 150 + (i % 2) * 18, z: 90 - (i - 5) * 15, vx: 0, vy: 0, radius: 6.5, color: "#38bdf8"
+        });
+
+        // Hop 2 wallet
+        nodes.push({
+          id: hop2Id,
+          label: `Hop-2 Dispersal #${i + 1}`,
+          shortLabel: `H2-${i + 1}`,
+          address: `H2x${i + 1}7mQ9vL3pK8rW2nB5cT1yH4jZ${20 + i}`,
+          role: "HOP-2 SHADOW DISPERSAL",
+          hop: 2,
+          supplyPct: Number((perWalletSupply * 0.65).toFixed(2)),
+          flags: `Block +${(i % 3) + 1} | 1_SniperBot = 1`,
+          heliusTag: "Sybil Dispersal Hop 2",
+          notes: `Intermediate shadow layer funded ${42 - i * 2}s before launch. Accumulates ${ (perWalletSupply * 0.65).toFixed(2) }% in Blocks 1..3.`,
+          x: spreadX + 12, y: 245 + (i % 2) * 20, z: 0 - (i - 5) * 18, vx: 0, vy: 0, radius: 7, color: "#22d3ee"
+        });
+
+        // Hop 3 wallet (Main Shadow Accumulators)
+        const isSlot0Bundled = i < 4;
+        nodes.push({
+          id: hop3Id,
+          label: `Hop-3 Shadow Accumulator #${i + 1}`,
+          shortLabel: `H3-${i + 1}`,
+          address: `H3x${i + 1}4pL8vK2mQ9rW6nB1cT8yH3jZ${30 + i}`,
+          role: "HOP-3 SHADOW ACCUMULATOR",
+          hop: 3,
+          supplyPct: Number((perWalletSupply * 2.0).toFixed(2)),
+          flags: isSlot0Bundled
+            ? "Slot 0 (b_launch) | 1_BundleBot = 1"
+            : `Block +${(i % 5) + 1} Sniper | 1_SniperBot = 1`,
+          heliusTag: "Shadow Cabal Buyer (Hop 3)",
+          notes: `Holds ${(perWalletSupply * 2.0).toFixed(2)}% supply. ${
+            isSlot0Bundled
+              ? "Entered atomically inside Slot-0 Jito bundle b_launch."
+              : `Entered in Block +${(i % 5) + 1} within 400ms of launch.`
+          } Routes exits to CEX Sink.`,
+          x: spreadX - 8, y: 345 + (i % 2) * 18, z: -90 - (i - 5) * 15, vx: 0, vy: 0, radius: 8.5, color: "#fbbf24",
+          isDumping: false
+        });
+
+        // Funding & Execution Edges
+        edges.push({ source: "root_funderblue", target: hop1Id, type: "funding", hop: 1 });
+        edges.push({ source: hop1Id, target: hop2Id, type: "funding", hop: 2 });
+        edges.push({ source: hop2Id, target: hop3Id, type: "funding", hop: 3 });
+        if (i < 9) {
+          edges.push({ source: hop2Id, target: `hop3_${i + 2}`, type: "funding", hop: 3 });
+        }
+        if (isSlot0Bundled) {
+          edges.push({ source: "jito_bundle_hub", target: hop3Id, type: "bundle", hop: 3 });
+        }
+        edges.push({ source: hop3Id, target: "cex_deposit_sink", type: "sink", hop: 4 });
+      }
+    }
+
+    // ============================================================================
+    // 2. CANVAS RENDERER (2D FORCE-DIRECTED & 3D ISOMETRIC ORBIT)
+    // ============================================================================
+    const canvas = document.getElementById("cabalGraphCanvas");
+    const ctx = canvas.getContext("2d");
+    let animTick = 0;
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resizeCanvas);
+
+    function projectNode(node, width, height) {
+      if (graphDimension === "2D") {
+        const scaleX = width / 820;
+        const scaleY = height / 490;
+        return {
+          px: node.x * scaleX,
+          py: node.y * scaleY,
+          scale: 1,
+          depth: 0
+        };
+      } else {
+        // 3D Isometric Orbit Projection around center (410, 245, 0)
+        const cx = (node.x - 410) * 0.95;
+        const cy = (node.y - 245) * 0.85;
+        const cz = node.z || 0;
+
+        const cosY = Math.cos(orbitYaw);
+        const sinY = Math.sin(orbitYaw);
+        const cosP = Math.cos(orbitPitch);
+        const sinP = Math.sin(orbitPitch);
+
+        const x1 = cx * cosY - cz * sinY;
+        const z1 = cx * sinY + cz * cosY;
+        const y2 = cy * cosP - z1 * sinP;
+        const z2 = cy * sinP + z1 * cosP;
+
+        const fov = 700;
+        const scale = fov / (fov + z2 + 220);
+        return {
+          px: width * 0.5 + x1 * scale,
+          py: height * 0.5 + y2 * scale,
+          scale: Math.max(0.55, Math.min(1.45, scale)),
+          depth: z2
+        };
+      }
+    }
+
+    function stepPhysics() {
+      if (graphDimension === "3D") {
+        if (!isDraggingCanvas) {
+          orbitYaw += 0.0035;
+        }
+        return;
+      }
+      // Subtle spring relaxation toward target anchors in 2D mode
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        if (a === draggedNode) continue;
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const distSq = dx * dx + dy * dy + 0.1;
+          if (distSq < 1800) {
+            const force = 18 / distSq;
+            a.vx -= dx * force;
+            a.vy -= dy * force;
+            b.vx += dx * force;
+            b.vy += dy * force;
+          }
+        }
+        a.vx *= 0.82;
+        a.vy *= 0.82;
+        a.x = Math.max(45, Math.min(775, a.x + a.vx));
+        a.y = Math.max(40, Math.min(455, a.y + a.vy));
+      }
+    }
+
+    function renderGraph() {
+      animTick++;
+      stepPhysics();
+
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      const isLight = document.documentElement.classList.contains("light");
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Subtle background grid
+      ctx.strokeStyle = isLight ? "rgba(15, 23, 42, 0.06)" : "rgba(148, 163, 184, 0.07)";
+      ctx.lineWidth = 1;
+      const step = 36;
+      for (let gx = 0; gx < width; gx += step) {
+        ctx.beginPath();
+        ctx.moveTo(gx, 0);
+        ctx.lineTo(gx, height);
+        ctx.stroke();
+      }
+      for (let gy = 0; gy < height; gy += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, gy);
+        ctx.lineTo(width, gy);
+        ctx.stroke();
+      }
+
+      // Compute projections
+      const projMap = {};
+      nodes.forEach((n) => {
+        projMap[n.id] = projectNode(n, width, height);
+      });
+
+      // Draw edges
+      edges.forEach((e, idx) => {
+        const p1 = projMap[e.source];
+        const p2 = projMap[e.target];
+        if (!p1 || !p2) return;
+
+        ctx.save();
+        ctx.beginPath();
+        if (e.type === "pruned") {
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = isLight ? "rgba(100, 116, 139, 0.45)" : "rgba(148, 163, 184, 0.35)";
+          ctx.lineWidth = 1.2;
+        } else if (e.type === "bundle") {
+          ctx.setLineDash([6, 3]);
+          ctx.strokeStyle = "rgba(232, 121, 249, 0.65)";
+          ctx.lineWidth = 1.6;
+        } else if (e.type === "sink") {
+          ctx.strokeStyle = tripwireFired
+            ? "rgba(244, 63, 94, 0.85)"
+            : "rgba(244, 63, 94, 0.28)";
+          ctx.lineWidth = tripwireFired ? 1.8 : 1.0;
+        } else {
+          const highlightHop = scanHighlightStep === e.hop;
+          ctx.strokeStyle = highlightHop
+            ? "rgba(34, 211, 238, 0.95)"
+            : isLight
+            ? "rgba(14, 116, 144, 0.28)"
+            : "rgba(56, 189, 248, 0.26)";
+          ctx.lineWidth = highlightHop ? 2.1 : 1.1;
+        }
+
+        ctx.moveTo(p1.px, p1.py);
+        ctx.lineTo(p2.px, p2.py);
+        ctx.stroke();
+
+        // Animated flow particle along active edges
+        if (e.type !== "pruned" && (idx % 2 === 0 || tripwireFired)) {
+          const t = ((animTick * 0.012 + idx * 0.13) % 1);
+          const fx = p1.px + (p2.px - p1.px) * t;
+          const fy = p1.py + (p2.py - p1.py) * t;
+          ctx.fillStyle =
+            e.type === "sink"
+              ? "#f43f5e"
+              : e.type === "bundle"
+              ? "#e879f9"
+              : "#38bdf8";
+          ctx.beginPath();
+          ctx.arc(fx, fy, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      });
+
+      // Depth-sort nodes in 3D mode
+      const sortedNodes = [...nodes].sort((a, b) => projMap[b.id].depth - projMap[a.id].depth);
+
+      sortedNodes.forEach((n) => {
+        const p = projMap[n.id];
+        const r = n.radius * p.scale;
+        const isSelected = n.id === selectedNodeId;
+        const isScanActive = scanHighlightStep === n.hop;
+
+        ctx.save();
+
+        // Outer halo for selected, scan-highlighted, or dumping nodes
+        if (isSelected || isScanActive || n.isDumping) {
+          ctx.beginPath();
+          ctx.arc(p.px, p.py, r + 6, 0, Math.PI * 2);
+          ctx.fillStyle = n.isDumping
+            ? "rgba(244, 63, 94, 0.35)"
+            : isSelected
+            ? "rgba(56, 189, 248, 0.32)"
+            : "rgba(16, 185, 129, 0.28)";
+          ctx.fill();
+        }
+
+        // Node circle
+        ctx.beginPath();
+        ctx.arc(p.px, p.py, r, 0, Math.PI * 2);
+        ctx.fillStyle = n.isDumping ? "#ef4444" : n.color;
+        ctx.fill();
+        ctx.lineWidth = isSelected ? 2.5 : 1.2;
+        ctx.strokeStyle = isSelected ? "#ffffff" : "rgba(15, 23, 42, 0.7)";
+        ctx.stroke();
+
+        // Label for major nodes or Hop-3 wallets
+        if (n.radius >= 8 || isSelected) {
+          ctx.font = "600 12px ui-monospace, SFMono-Regular, Menlo, monospace";
+          ctx.textAlign = "center";
+          ctx.fillStyle = isLight ? "#0f172a" : "#f8fafc";
+          ctx.fillText(n.shortLabel, p.px, p.py - r - 5);
+        }
+
+        ctx.restore();
+      });
+
+      requestAnimationFrame(renderGraph);
+    }
+
+    // ============================================================================
+    // 3. INTERACTIVE CANVAS MOUSE / DRAG / CLICK HANDLERS
+    // ============================================================================
+    canvas.addEventListener("mousedown", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      lastMouseX = mx;
+      lastMouseY = my;
+      isDraggingCanvas = true;
+
+      // Hit test nodes
+      let hit = null;
+      let minDist = 18;
+      nodes.forEach((n) => {
+        const p = projectNode(n, rect.width, rect.height);
+        const d = Math.hypot(mx - p.px, my - p.py);
+        if (d < minDist) {
+          minDist = d;
+          hit = n;
+        }
+      });
+
+      if (hit) {
+        draggedNode = hit;
+        selectNode(hit.id);
+      }
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!isDraggingCanvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const dx = mx - lastMouseX;
+      const dy = my - lastMouseY;
+      lastMouseX = mx;
+      lastMouseY = my;
+
+      if (graphDimension === "3D") {
+        orbitYaw += dx * 0.008;
+        orbitPitch = Math.max(-1.1, Math.min(1.1, orbitPitch + dy * 0.008));
+      } else if (draggedNode) {
+        const scaleX = 820 / rect.width;
+        const scaleY = 490 / rect.height;
+        draggedNode.x = Math.max(40, Math.min(780, draggedNode.x + dx * scaleX));
+        draggedNode.y = Math.max(35, Math.min(455, draggedNode.y + dy * scaleY));
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDraggingCanvas = false;
+      draggedNode = null;
+    });
+
+    function selectNode(nodeId) {
+      selectedNodeId = nodeId;
+      const n = nodes.find((item) => item.id === nodeId);
+      if (!n) return;
+      document.getElementById("inspector-role-badge").textContent = n.role;
+      document.getElementById("insp-label").textContent = n.label;
+      document.getElementById("insp-address").textContent = n.address;
+      document.getElementById("insp-hop").textContent = `Hop ${n.hop} (${n.role})`;
+      document.getElementById("insp-supply").textContent =
+        n.supplyPct > 0 ? `${n.supplyPct.toFixed(2)}% Supply` : "0.00% (Non-Holder / Relay)";
+      document.getElementById("insp-flags").textContent = n.flags;
+      document.getElementById("insp-helius").textContent = n.heliusTag;
+      document.getElementById("insp-notes").textContent = n.notes;
+    }
+
+    function setGraphDimension(dim) {
+      graphDimension = dim;
+      const btn2d = document.getElementById("btn-view-2d");
+      const btn3d = document.getElementById("btn-view-3d");
+      const indicator = document.getElementById("canvas-mode-indicator");
+
+      if (dim === "2D") {
+        btn2d.className = "px-2.5 py-1 rounded-md text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition";
+        btn3d.className = "px-2.5 py-1 rounded-md text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition";
+        indicator.textContent = "Mode: 2D Force Physics (Drag Nodes)";
+      } else {
+        btn3d.className = "px-2.5 py-1 rounded-md text-xs font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 transition";
+        btn2d.className = "px-2.5 py-1 rounded-md text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition";
+        indicator.textContent = "Mode: 3D Isometric Orbit (Drag to Rotate)";
+      }
+    }
+
+    function switchClusterProfile(profileKey) {
+      activeClusterProfile = profileKey;
+      tripwireFired = false;
+      scanHighlightStep = -1;
+      const prof = SYNDICATE_PROFILES[profileKey];
+
+      document.getElementById("select-cluster-profile").value = profileKey;
+      document.getElementById("kpi-dev-supply").textContent = prof.devSupply;
+      document.getElementById("kpi-shadow-supply").textContent = prof.shadowSupply;
+      document.getElementById("kpi-cabal-score").textContent = `Score: ${prof.cabalScore} / 100`;
+      const verdictEl = document.getElementById("kpi-cabal-verdict");
+      verdictEl.textContent = prof.verdict;
+      verdictEl.className = `text-xs font-semibold ${prof.verdictColor}`;
+      document.getElementById("legend-pct").textContent = `${prof.shadowPctNum}%`;
+
+      // Sync sliders
+      document.getElementById("slider-p95").value = prof.p95;
+      document.getElementById("slider-vcurve").value = prof.vcurve;
+      document.getElementById("slider-alpha").value = prof.alpha;
+      updateJitoCalculator();
+
+      buildTopologyGraph();
+      selectNode("root_funderblue");
+      writeForensicConsole(
+        `[PROFILE LOADED] ${prof.name}\n` +
+        `├─ Official Deployer (w_c): 0.00% supply (Retail Scanner Decoy)\n` +
+        `├─ 3-Hop Shadow Cluster (30 wallets): ${prof.shadowPctNum}% aggregate supply\n` +
+        `├─ Helius Boundary Pruning: 2 institutional nodes pruned (Binance Hot, Wintermute)\n` +
+        `└─ Cabal-Hunter MCP Gate: cabal_score=${prof.cabalScore} -> ${prof.verdict}`
+      );
+    }
+
+    function resetGraphSimulation() {
+      tripwireFired = false;
+      scanHighlightStep = -1;
+      orbitYaw = 0.55;
+      orbitPitch = 0.42;
+      document.getElementById("kpi-tripwire-state").textContent = "ARMED (<50ms)";
+      document.getElementById("kpi-tripwire-state").className = "text-base font-bold mono text-emerald-400";
+      document.getElementById("kpi-tripwire-sub").textContent = "OFI: +1.8σ | VPIN: 0.34";
+      buildTopologyGraph();
+      selectNode("root_funderblue");
+    }
+
+    // ============================================================================
+    // 4. CABAL-HUNTER MCP SCAN & CLUSTER SELL-TRIPWIRE SIMULATION
+    // ============================================================================
+    function writeForensicConsole(text) {
+      const el = document.getElementById("forensic-console");
+      el.textContent = text;
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function runCabalHunterScan() {
+      const prof = SYNDICATE_PROFILES[activeClusterProfile];
+      const badge = document.getElementById("scan-badge");
+      const msg = document.getElementById("scan-message");
+      badge.textContent = "x402 SCANNING";
+      badge.className = "px-2 py-0.5 rounded text-xs font-bold mono bg-amber-500/20 text-amber-300 border border-amber-500/40";
+
+      const steps = [
+        {
+          hop: 0,
+          banner: "Stage 1/4: Helius Identity API boundary pruning (Binance Hot & Wintermute excluded)...",
+          log: `[x402 PAYMENT] Settled 0.01 USDC -> Cabal-Hunter MCP check_cabal_risk\n[STAGE 1] Helius Batch Identity API Lookup:\n  - 5tzFki...d89V -> exchange_hot_wallet (Binance) [PRUNED]\n  - Wint9x...2mQ1 -> institutional_mm (Wintermute) [PRUNED]`
+        },
+        {
+          hop: 1,
+          banner: "Stage 2/4: Tracing Hop-1 & Hop-2 SOL dispersal from root treasury funderblue...",
+          log: `[STAGE 2] Multi-Hop Funding Graph DFS (Δt <= 600s):\n  - Upstream Root: funderblue (FndR8x...9bL2)\n  - Hop-1 Relays: 10 wallets funded at -142s.. -98s\n  - Hop-2 Dispersal: 10 wallets funded at -45s.. -18s`
+        },
+        {
+          hop: 3,
+          banner: "Stage 3/4: De-anonymizing 10 Hop-3 accumulators + Slot-0 Jito bundle b_launch...",
+          log: `[STAGE 3] Slot-0 Jito Bundle & Sniper Co-Occurrence:\n  - Official Deployer w_c holds 0.00% (Zero-Percent Dev Illusion confirmed)\n  - 4 Hop-3 wallets bundled in Slot-0 (b_launch, 1_BundleBot=1)\n  - 26 Hop-1..3 wallets sniped in Blocks +1..+5 (1_SniperBot=1)`
+        },
+        {
+          hop: -1,
+          banner: `Stage 4/4: Scan complete — Shadow Cluster holds ${prof.shadowPctNum}% | cabal_score: ${prof.cabalScore} (${prof.verdict})`,
+          log: JSON.stringify(
+            {
+              mcp_tool: "cabal-hunter.check_cabal_risk",
+              x402_settlement: "0.01 USDC (Confirmed)",
+              cluster_id: prof.id,
+              root_treasury: "funderblue (FndR8x...9bL2)",
+              official_dev_pct: 0.0,
+              shadow_cluster_wallets: 30,
+              shadow_supply_pct: prof.shadowPctNum,
+              helius_boundary_pruned: ["Binance Hot Wallet 2", "Wintermute MM"],
+              cabal_score: prof.cabalScore,
+              execution_gate: prof.cabalScore < 65 ? "ALLOW_RUNNER_FOLLOW" : "HARD_VETO_RUG_CABAL"
+            },
+            null,
+            2
+          )
+        }
+      ];
+
+      steps.forEach((st, idx) => {
+        setTimeout(() => {
+          scanHighlightStep = st.hop;
+          msg.textContent = st.banner;
+          writeForensicConsole(st.log);
+          if (idx === steps.length - 1) {
+            badge.textContent = prof.cabalScore < 65 ? "RUNNER VERIFIED" : "VETO TRIGGERED";
+            badge.className =
+              prof.cabalScore < 65
+                ? "px-2 py-0.5 rounded text-xs font-bold mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                : "px-2 py-0.5 rounded text-xs font-bold mono bg-rose-500/20 text-rose-300 border border-rose-500/40";
+          }
+        }, idx * 450);
+      });
+    }
+
+    function triggerSellTripwireSimulation() {
+      tripwireFired = true;
+      // Flag 4 Hop-3 shadow nodes as actively dumping into the bonding curve
+      nodes.forEach((n) => {
+        if (n.id === "hop3_2" || n.id === "hop3_5" || n.id === "hop3_8" || n.id === "cex_deposit_sink") {
+          n.isDumping = true;
+        }
+      });
+
+      document.getElementById("kpi-tripwire-state").textContent = "TRIPWIRE FIRED (34ms)";
+      document.getElementById("kpi-tripwire-state").className = "text-base font-bold mono text-rose-400";
+      document.getElementById("kpi-tripwire-sub").textContent = "OFI: -2.9σ | VPIN: 0.89";
+
+      const badge = document.getElementById("scan-badge");
+      const msg = document.getElementById("scan-message");
+      badge.textContent = "EMERGENCY EXIT";
+      badge.className = "px-2 py-0.5 rounded text-xs font-bold mono bg-rose-500/20 text-rose-300 border border-rose-500/40";
+      msg.textContent =
+        "Shadow Cluster Wallets H3-2, H3-5, H3-8 detected selling 2.45% supply in ShredStream! Firing Jito Front-Run Exit Bundle...";
+
+      // Escalate alpha slider to emergency exit level
+      document.getElementById("slider-alpha").value = 2.65;
+      updateJitoCalculator();
+
+      writeForensicConsole(
+        `[SHREDSTREAM ALERT +0.0ms] Shadow Cluster Sell Detected!\n` +
+        `├─ Dumping Wallets: H3-2 (0.82%), H3-5 (0.81%), H3-8 (0.82%) -> Total 2.45% > 1.50% Tripwire\n` +
+        `├─ Microstructure Breakdown: OFI = -2.94σ (< -2.0σ), VPIN = 0.89 (> 0.80)\n` +
+        `├─ [ACTION +4.2ms] Constructed Atomic Jito Exit Bundle (jitodontfront Index 0)\n` +
+        `├─ [ACTION +11.8ms] Dispatched across 5 Jito Regions + Astralane + Lil' JIT\n` +
+        `└─ [CONFIRMED +34.1ms] Front-ran shadow cluster dump in Slot 0! Realized PnL: +3.18x`
+      );
+      selectNode("hop3_2");
+    }
+
+    // ============================================================================
+    // 5. SLOT-ZERO DYNAMIC JITO TIP CALCULATOR & RELAY LATENCY RACE
+    // ============================================================================
+    const RELAY_ENDPOINTS = [
+      { name: "Astralane Low-Latency Relay (iris.astralane.io)", baseMs: 1.8, color: "bg-emerald-400" },
+      { name: "QuickNode Lil' JIT (Sub-Slot Addon)", baseMs: 2.3, color: "bg-cyan-400" },
+      { name: "Jito Frankfurt (eu.mainnet.block-engine.jito.wtf)", baseMs: 2.7, color: "bg-purple-400" },
+      { name: "Jito Amsterdam (amsterdam.mainnet.block-engine.jito.wtf)", baseMs: 3.1, color: "bg-indigo-400" },
+      { name: "Jito New York (ny.mainnet.block-engine.jito.wtf)", baseMs: 6.4, color: "bg-amber-400" },
+      { name: "Jito Salt Lake City (slc.mainnet.block-engine.jito.wtf)", baseMs: 11.2, color: "bg-sky-400" },
+      { name: "Jito Tokyo (tokyo.mainnet.block-engine.jito.wtf)", baseMs: 18.6, color: "bg-rose-400" }
+    ];
+
+    function updateJitoCalculator() {
+      const p95 = parseFloat(document.getElementById("slider-p95").value);
+      const vcurve = parseFloat(document.getElementById("slider-vcurve").value);
+      const alpha = parseFloat(document.getElementById("slider-alpha").value);
+      const tMin = 0.001;
+
+      document.getElementById("val-p95").textContent = `${p95.toFixed(4)} SOL`;
+      document.getElementById("val-vcurve").textContent = `${vcurve.toFixed(1)} SOL/s`;
+      document.getElementById("val-alpha").textContent = alpha.toFixed(2);
+
+      const multiplier = 1 + alpha * vcurve;
+      const tDynamic = Math.max(tMin, p95 * multiplier);
+      const lamports = Math.round(tDynamic * 1e9);
+      const usdVal = tDynamic * 185.0;
+
+      document.getElementById("formula-substitution").textContent =
+        `max(0.0010, ${p95.toFixed(4)} × (1 + ${alpha.toFixed(2)} × ${vcurve.toFixed(1)})) = ${tDynamic.toFixed(5)} SOL`;
+
+      document.getElementById("out-tdynamic-sol").textContent = `${tDynamic.toFixed(4)} SOL`;
+      document.getElementById("out-tdynamic-usd").textContent =
+        `${lamports.toLocaleString()} lamports (~$${usdVal.toFixed(2)})`;
+      document.getElementById("out-multiplier").textContent = `${multiplier.toFixed(2)}x`;
+
+      // Inclusion probability estimate
+      const winProb = Math.min(99.8, 78 + Math.log10(1 + alpha * vcurve) * 16.5);
+      document.getElementById("out-win-prob").textContent = `${winProb.toFixed(1)}%`;
+
+      const cuBudget = 180000;
+      if (currentExecutionMode === "bundle") {
+        document.getElementById("out-split-desc").textContent = "100% Jito Bundle Tip";
+        document.getElementById("out-split-sub").textContent = `Tx_k Transfer: ${tDynamic.toFixed(4)} SOL`;
+        document.getElementById("out-cu-price").textContent = `180,000 CU | Atomic Bundle`;
+        document.getElementById("txk-sub").innerHTML =
+          `Direct <code class="mono">SystemProgram::Transfer</code> (${tDynamic.toFixed(4)} SOL)`;
+      } else {
+        const prioSol = tDynamic * 0.70;
+        const jitoSol = tDynamic * 0.30;
+        const microLamportsPerCu = Math.round(((prioSol * 1e9) / cuBudget) * 1e6);
+        document.getElementById("out-split-desc").textContent = "70% Priority / 30% Jito";
+        document.getElementById("out-split-sub").textContent =
+          `${prioSol.toFixed(4)} SOL Prio / ${jitoSol.toFixed(4)} SOL Tip`;
+        document.getElementById("out-cu-price").textContent =
+          `${microLamportsPerCu.toLocaleString()} µLamports/CU`;
+        document.getElementById("txk-sub").innerHTML =
+          `30% Tip (${jitoSol.toFixed(4)} SOL) + 70% CU Price (${prioSol.toFixed(4)} SOL)`;
+      }
+    }
+
+    function setExecutionMode(mode) {
+      currentExecutionMode = mode;
+      const btnBundle = document.getElementById("mode-bundle");
+      const btnSplit = document.getElementById("mode-split");
+      if (mode === "bundle") {
+        btnBundle.className = "p-2.5 rounded-lg border text-left transition bg-emerald-500/15 border-emerald-500/40 text-[var(--foreground)]";
+        btnSplit.className = "p-2.5 rounded-lg border text-left transition bg-[var(--card)] border-[var(--border)] text-[var(--muted-foreground)]";
+      } else {
+        btnSplit.className = "p-2.5 rounded-lg border text-left transition bg-cyan-500/15 border-cyan-500/40 text-[var(--foreground)]";
+        btnBundle.className = "p-2.5 rounded-lg border text-left transition bg-[var(--card)] border-[var(--border)] text-[var(--muted-foreground)]";
+      }
+      updateJitoCalculator();
+    }
+
+    function rotateJitoTipAccount() {
+      currentJitoTipIndex = (currentJitoTipIndex + 1) % JITO_TIP_PDAS.length;
+      const pda = JITO_TIP_PDAS[currentJitoTipIndex];
+      document.getElementById("active-jito-pda").textContent = `PDA [${currentJitoTipIndex + 1}/8]: ${pda}`;
+    }
+
+    function runLatencyRace() {
+      const container = document.getElementById("relay-race-bars");
+      const results = RELAY_ENDPOINTS.map((ep) => {
+        const jitter = (Math.random() - 0.45) * 0.6;
+        const ms = Math.max(1.1, ep.baseMs + jitter);
+        return { ...ep, ms };
+      }).sort((a, b) => a.ms - b.ms);
+
+      document.getElementById("winning-relay-badge").textContent =
+        `Winner: ${results[0].name.split(" (")[0]} (${results[0].ms.toFixed(2)} ms)`;
+
+      container.innerHTML = results
+        .map((r, i) => {
+          const widthPct = Math.max(12, Math.min(100, (1 - r.ms / 24) * 100));
+          return `
+            <div class="flex items-center gap-3 text-xs">
+              <div class="w-64 truncate mono ${i === 0 ? "font-bold text-emerald-400" : "text-[var(--foreground)]"}">
+                ${i === 0 ? "★ " : ""}${r.name}
+              </div>
+              <div class="flex-1 bg-[var(--card)] border border-[var(--border)] rounded-full h-3 overflow-hidden">
+                <div class="${r.color} h-full rounded-full transition-all duration-300" style="width: ${widthPct.toFixed(1)}%"></div>
+              </div>
+              <div class="w-16 text-right mono font-semibold ${i === 0 ? "text-emerald-400" : "text-[var(--muted-foreground)]"}">
+                ${r.ms.toFixed(2)} ms
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    // ============================================================================
+    // 6. POPULATE SYNDICATE & CABAL LEADERBOARD
+    // ============================================================================
+    function renderLeaderboard() {
+      const tbody = document.getElementById("syndicate-leaderboard-body");
+      tbody.innerHTML = LEADERBOARD_DATA.map((row) => {
+        return `
+          <tr onclick="loadLeaderboardRow('${row.id}')" class="hover:bg-cyan-500/10 cursor-pointer transition">
+            <td class="py-2.5 pr-2 mono font-bold text-[var(--foreground)]">
+              <div>${row.id}</div>
+              <div class="text-xs text-[var(--muted-foreground)] font-normal">${row.root}</div>
+            </td>
+            <td class="py-2.5 px-2">
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold border ${row.badgeClass}">
+                ${row.type}
+              </span>
+            </td>
+            <td class="py-2.5 px-2 mono font-semibold text-[var(--foreground)]">${row.gradRate}</td>
+            <td class="py-2.5 px-2 mono text-[var(--foreground)]">${row.holdTime}</td>
+            <td class="py-2.5 px-2 mono font-semibold text-cyan-400">${row.winMult}</td>
+            <td class="py-2.5 pl-2 mono font-bold ${row.profileKey === "runner" ? "text-emerald-400" : "text-rose-400"}">
+              ${row.mcpGate}
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function loadLeaderboardRow(clusterId) {
+      const item = LEADERBOARD_DATA.find((r) => r.id === clusterId);
+      if (!item) return;
+      switchClusterProfile(item.profileKey);
+      document.getElementById("slider-p95").value = item.p95;
+      document.getElementById("slider-vcurve").value = item.vcurve;
+      document.getElementById("slider-alpha").value = item.alpha;
+      updateJitoCalculator();
+      writeForensicConsole(
+        `[LEADERBOARD -> MISSION CONTROL] Loaded ${item.id} (${item.root})\n` +
+        `├─ Classification: ${item.type} | Graduation Rate: ${item.gradRate} | Hold: ${item.holdTime}\n` +
+        `├─ Copy-Trade Win/Mult: ${item.winMult} | MCP Gate: ${item.mcpGate}\n` +
+        `└─ Synced Slot-0 Calculator: P95=${item.p95} SOL, V_curve=${item.vcurve} SOL/s, α=${item.alpha}`
+      );
+    }
+
+    // Initialize everything on load
+    window.addEventListener("DOMContentLoaded", () => {
+      resizeCanvas();
+      buildTopologyGraph();
+      selectNode("root_funderblue");
+      updateJitoCalculator();
+      runLatencyRace();
+      renderLeaderboard();
+      writeForensicConsole(
+        `[SYSTEM READY] Sovereign Titan Cabal Forensics & Slot-0 Engine Initialized\n` +
+        `├─ Active Profile: C_runner_01 (funderblue) -> 30 Shadow Wallets (18.40% Supply)\n` +
+        `├─ Official Deployer w_c: 0.00% Supply ("0% Dev Hold" retail scanner illusion)\n` +
+        `├─ Helius Identity Boundary Filter: 2 nodes pruned (Binance Hot, Wintermute MM)\n` +
+        `└─ Click any graph node, trigger x402 MCP scan, or fire the Sell-Tripwire simulation.`
+      );
+      requestAnimationFrame(renderGraph);
+    });
+  </script>
+</body>
+</html>

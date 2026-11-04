@@ -1,0 +1,19 @@
+[package]
+name = "sniper-rs"
+version = "0.1.0"
+edition = "2021"
+description = "Slot-Zero Rust Execution Engine: Yellowstone gRPC Dragon's Mouth Streamer, Zero-RPC PDA Calculator, Dynamic Jito Bundle Builder with Anti-MEV Hardening, and Phase-1 PVP Auto-Exit"
+authors = ["Sovereign Titan Architecture"]
+
+[lib]
+name = "sniper_rs"
+path = "src/lib.rs"
+
+[dependencies]
+# Zero external dependencies for deterministic <1.5s offline builds
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"

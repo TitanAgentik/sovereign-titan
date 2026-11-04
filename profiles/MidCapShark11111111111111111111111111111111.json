@@ -1,0 +1,32 @@
+{
+  "wallet": "MidCapShark11111111111111111111111111111111",
+  "parent_shark_wallet": null,
+  "is_child_burner": false,
+  "archetype": "POST_MIGRATION_DIP_BUYER",
+  "conviction_sizing": {
+    "median_sol": 2.5,
+    "p75_high_conviction_sol": 3.0,
+    "lotto_threshold_sol": 2.0
+  },
+  "entry_fingerprint": {
+    "mcap_range_usd": [
+      195000.0,
+      195000.0
+    ],
+    "min_liquidity_usd": 48000.0,
+    "requires_dex_boost": true
+  },
+  "exit_signature": {
+    "median_hold_time_sec": 111.0,
+    "first_tp_multiple": 2.5,
+    "typical_scale_out_pct": 50.0
+  },
+  "invalidation_rules": {
+    "max_acceptable_drawdown_pct": 18.0,
+    "max_hold_without_new_high_sec": 83.2,
+    "abort_on_dev_sell_pct": 20.0
+  },
+  "fast_bot_followers": 2,
+  "priority_multiplier": 1.0,
+  "updated_at_epoch_s": 1793358498.765792
+}

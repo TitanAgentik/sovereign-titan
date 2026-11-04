@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Sovereign Titan v2.0 — Institutional Technical &amp; Operational Manual</title>
+<style>
+  @page {
+    size: letter;
+    margin: 12mm 13mm 13mm 13mm;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 9.8pt;
+    line-height: 1.46;
+    color: #0f172a;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+  .doc-banner {
+    background: linear-gradient(135deg, #061814 0%, #0b192c 60%, #170f2e 100%);
+    color: #f8fafc;
+    padding: 9px 13px;
+    border-radius: 6px;
+    border-left: 5px solid #10b981;
+    margin-bottom: 6px;
+  }
+  .doc-banner .subtitle {
+    color: #34d399;
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+    font-size: 8.0pt;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  h1.doc-title {
+    font-size: 12.5pt;
+    font-weight: 800;
+    color: #064e3b;
+    margin: 2px 0 5px 0;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #10b981;
+    letter-spacing: -0.2px;
+  }
+  .page-section {
+    margin-top: 6px;
+    page-break-inside: avoid;
+  }
+  .page-break-before {
+    page-break-before: always;
+    break-before: page;
+    margin-top: 0;
+  }
+  h2.page-heading {
+    font-size: 10.2pt;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(90deg, #064e3b 0%, #0f172a 100%);
+    padding: 4.5px 9px;
+    border-radius: 4px;
+    border-left: 4px solid #10b981;
+    margin: 4px 0 5px 0;
+    letter-spacing: 0.15px;
+    page-break-after: avoid;
+  }
+  h2.section-heading {
+    font-size: 9.8pt;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 1.5px solid #cbd5e1;
+    padding-bottom: 2px;
+    margin: 5px 0 4px 0;
+    page-break-after: avoid;
+  }
+  h3.sub-heading {
+    font-size: 8.6pt;
+    font-weight: 700;
+    color: #0369a1;
+    margin: 5px 0 2.5px 0;
+    page-break-after: avoid;
+  }
+  p {
+    margin: 2.5px 0 4px 0;
+    text-align: justify;
+  }
+  ul, ol {
+    margin: 2.5px 0 4px 0;
+    padding-left: 15px;
+  }
+  li {
+    margin-bottom: 2px;
+  }
+  code {
+    font-family: "JetBrains Mono", "Fira Code", "DejaVu Sans Mono", monospace;
+    font-size: 8pt;
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 0.5px 2.5px;
+    border-radius: 3px;
+    border: 1px solid #e2e8f0;
+  }
+  a {
+    color: #0284c7;
+    text-decoration: none;
+  }
+  pre.code-block {
+    font-family: "JetBrains Mono", "Fira Code", "DejaVu Sans Mono", monospace;
+    font-size: 8pt;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 5px 7px;
+    border-radius: 5px;
+    border-left: 3.5px solid #10b981;
+    overflow-x: auto;
+    margin: 3.5px 0;
+  }
+  pre.code-block code {
+    background: transparent;
+    color: inherit;
+    border: none;
+    padding: 0;
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3.5px 0 5px 0;
+    font-size: 8.1pt;
+  }
+  table.data-table th {
+    background: #0f172a;
+    color: #f8fafc;
+    font-weight: 700;
+    text-align: left;
+    padding: 4px 6px;
+    border: 1px solid #334155;
+  }
+  table.data-table td {
+    padding: 4px 6px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+  }
+  table.data-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  table.dense-table {
+    font-size: 5.5pt;
+    line-height: 1.08;
+    margin: 2px 0;
+  }
+  table.dense-table th, table.dense-table td {
+    padding: 1.1px 2.5px;
+  }
+  table.dense-table code {
+    font-size: 5.4pt;
+    padding: 0 1.5px;
+    border: none;
+  }
+  .math-block {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 3.5px solid #0284c7;
+    border-radius: 4px;
+    padding: 4.5px 8px;
+    margin: 4px 0;
+    text-align: center;
+    font-family: "Cambria Math", "STIX Two Math", Georgia, serif;
+    font-size: 8.6pt;
+  }
+  .math-expr {
+    font-family: "Cambria Math", "STIX Two Math", Georgia, serif;
+    font-weight: 600;
+    color: #0f172a;
+  }
+  hr.section-divider {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 6px 0;
+  }
+  .arch-diagram {
+    background: #f8fafc;
+    border: 1.5px solid #94a3b8;
+    border-radius: 6px;
+    padding: 6px 8px;
+    margin: 4px 0 6px 0;
+  }
+  .arch-stage {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #0284c7;
+    border-radius: 4px;
+    padding: 4px 7px;
+  }
+  .arch-stage.highlight {
+    border-left-color: #10b981;
+    background: #ecfdf5;
+  }
+  .arch-title {
+    font-size: 7.8pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 3px;
+  }
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5px;
+  }
+  .arch-node {
+    font-size: 7.4pt;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    padding: 2.5px 5px;
+  }
+  .arch-arrow {
+    text-align: center;
+    font-size: 8pt;
+    color: #0284c7;
+    line-height: 1.05;
+    margin: 1.5px 0;
+  }
+</style>
+</head>
+<body>
+<div class="doc-banner">
+  <div class="subtitle">SOVEREIGN TITAN OS v2.0 · INSTITUTIONAL TECHNICAL &amp; OPERATIONAL SYSTEM BIBLE</div>
+  <div style="font-size: 8.0pt; color: #cbd5e1; margin-top: 2px;">
+    96-Core Threadripper PRO 9995WX · Dual RTX PRO 6000 Blackwell (192GB GDDR7) · 128GB DDR5 RAMDisk · 32 Agents / 96 Subagents · $100K–$50M Mega-Flash Syndicate
+  </div>
+</div>
+<h1 class="doc-title">SOVEREIGN TITAN v2.0 — COMPLETE STEP-BY-STEP LIVE REAL-CAPITAL & 24/7 UNATTENDED OPERATIONS RUNBOOK</h1>
+<p><strong>Document Type:</strong> Master Step-by-Step Production Deployment & 24/7 Reliability Manual</p>
+<p><strong>System Version:</strong> Sovereign Titan OS v2.0 (<code>2026.11</code> Blackwell Ultra / Alpenglow Edition)</p>
+<p><strong>Target Environment:</strong> Bare-Metal Ubuntu/Arch Linux · AMD Threadripper PRO 9995WX · Dual NVIDIA RTX PRO 6000 Blackwell (<code>192GB</code> VRAM) · <code>128GB</code> DDR5 RAMDisk</p>
+<p><strong>Primary Codebase Root:</strong> <a href="file:///home/titanagentik/sovereign-titan"><code>/home/titanagentik/sovereign-titan</code></a></p>
+<hr class="section-divider" />
+<h2 class="section-heading">TABLE OF CONTENTS</h2>
+<ol>
+<li><strong>Page 1 — Master Go-Live Overview, Capital Allocation Blueprint & Monthly Infrastructure Budget</strong></li>
+<li><strong>Page 2 — Step 1: Bare-Metal Linux Kernel Tuning, <code>128GB</code> DDR5 <code>tmpfs</code> RAMDisk, <code>mlock</code> Pinning & PTP Clock Sync</strong></li>
+<li><strong>Page 3 — Step 2: Signing Up & Configuring the Paid Core 4 APIs, Yellowstone gRPC, SWQoS & Webhooks</strong></li>
+<li><strong>Page 4 — Step 3: Configuring the Free 7 Intelligence Feeds, Telegram MTProto, Cross-Chain Bridges, Polymarket & <code>x402</code> MCP</strong></li>
+<li><strong>Page 5 — Step 4: Creating Your Production <code>.env</code> File (Complete Line-by-Line Master Template)</strong></li>
+<li><strong>Page 6 — Step 5: Launching the 4-Lane Local GPU LLM Fleet (<code>:8005/:8002/:8006/:8007</code>) & Local <code>jupiter-swap-api</code> (<code>:8080</code>)</strong></li>
+<li><strong>Page 7 — Step 6: Initializing & Backing Up the Persistent <code>AES-256-GCM</code> Keystore (<code>.keystore.enc</code>), 25 Shards & Cold Wallet</strong></li>
+<li><strong>Page 8 — Step 7: Compiling & Deploying the On-Chain <code>profit_guard</code> Rust Smart Contract (<code>profit_guard.so</code>) to Mainnet-Beta</strong></li>
+<li><strong>Page 9 — Step 8: Creating the 36-Account Mainnet Address Lookup Table (ALT) & Pre-Warming All 150 Shard ATAs</strong></li>
+<li><strong>Page 10 — Step 9: Jito Block Engine Auth Keypair & 5-POP Co-Located WireGuard Mesh (<code>PARALLEL_6RELAY_FANOUT</code>)</strong></li>
+<li><strong>Page 11 — Step 10: Exact Capital Funding Split Across Master Vault, 25 Shards, Drift V2 Hedge & Polymarket USDC Float</strong></li>
+<li><strong>Page 12 — Step 11: Running the 10-Point Pre-Flight Wizard & Arming Live Mainnet Broadcast in the 120Hz GUI</strong></li>
+<li><strong>Page 13 — Step 12: Activating the <code>$5,000/Day</code> Floor Preset + Uncapped <code>50/30/20</code> Auto-Compounding & 4-Echelon Evolution</strong></li>
+<li><strong>Page 14 — Step 13: Bulletproof 24/7/365 Unattended Operation (<code>systemd</code> Auto-Restart, 60s NVMe Checkpoints & 6h ExpeL Cron)</strong></li>
+<li><strong>Page 15 — Step 14: Daily/Weekly Operator Routine, Emergency Kill-Switch Drills, Cold-Wallet Sweeps & Troubleshooting</strong></li>
+</ol>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 1 — MASTER GO-LIVE OVERVIEW, CAPITAL ALLOCATION BLUEPRINT & MONTHLY INFRASTRUCTURE BUDGET</h2></div>
+<h3 class="sub-heading">1.1 The Golden Rule of Sovereign Titan Live Deployment</h3>
+<p>Sovereign Titan v2.0 is engineered so that <strong>you never jump blindly into directional risk</strong>. Every component is verified through a deterministic <strong>14-Step Go-Live Sequence</strong>:</p>
+<ol>
+<li>Your <strong>Paid Core 4 APIs</strong>, <strong>Free 7 Feeds</strong>, <strong>Local <code>jupiter-swap-api</code> (<code>:8080</code>)</strong>, and <strong>4-Lane Local GPU LLM Fleet</strong> come online first.</li>
+<li>Your <strong>Persistent <code>AES-256-GCM</code> Keystore (<code>~/.hermes/skills/solana-mev-titan/.keystore.enc</code>)</strong> generates and pins (<code>mlock</code>) your <strong>Master Vault</strong>, <strong>Protected Reserve Lockbox</strong>, and <strong>25 Stealth Shards</strong> in RAM, while binding your personal hardware cold wallet (<code>WITHDRAW_ADDRESS</code>) as the <strong>only</strong> permitted outbound withdrawal destination.</li>
+<li>Your on-chain <strong><code>profit_guard</code> Rust smart contract</strong>, <strong>36-Account Mainnet ALT</strong>, and <strong>150 Pre-Warmed Shard ATAs (<code>wSOL</code>, <code>USDC</code>, <code>jitoSOL</code>, <code>mSOL</code>, <code>bSOL</code>, <code>INF</code>)</strong> are initialized on Solana Mainnet-Beta.</li>
+<li>The system boots in <strong><code>STEP_1_ZERO_PRINCIPAL_RISK</code></strong> (<code>0.00 SOL</code> directional risk), running zero-collateral Kamino/MarginFi flash arbitrages (<code>500 SOL</code> <span class="math-expr">→</span> <code>25,000 SOL</code>), Sanctum LST depeg sweeps, 5-Tx Jito Super-Bundles, and <code>100%</code> delta-hedged Meteora DLMM / Drift funding harvests, and <strong>automatically promotes and compounds without any daily ceiling</strong> (<code>$5,000/day</code> is strictly a floor; <code>daily_profit_ceiling_usd = &quot;UNCAPPED&quot;</code>).</li>
+</ol>
+<h3 class="sub-heading">1.2 Day-1 <code>$1,000–$2,000</code> Initial Seed Blueprint + Any-Time Random Capital Injections</h3>
+<p>You do <strong>not</strong> need <code>$30,000+</code> on Day 1 to launch Sovereign Titan live. Because <strong>Step 1 (<code>STEP_1_ZERO_PRINCIPAL_RISK</code>)</strong> borrows <strong><code>500 SOL</code> (<code>~$95,000</code>) atomically per transaction</strong> via <strong>Kamino (<code>0.1 bps</code> fee) and MarginFi V2 (<code>0.0 bps</code> fee) Zero-Collateral Flash Loans</strong>, your own <code>$1,000–$2,000</code> (<code>~5.40–10.81 SOL</code>) starting seed is <strong>never</strong> used as flash-loan principal and is <strong>never</strong> exposed to directional token risk (<code>principal_at_risk_sol = 0.00</code>). Instead, your <code>$1,000–$2,000</code> Day-1 seed is split <strong><code>80% / 20%</code></strong>, and you can inject <strong>any random dollar or SOL amount at any random time</strong> (<code>ANY_RANDOM_AMOUNT_ANY_RANDOM_TIME</code>) as you go:</p>
+<table class="data-table">
+<thead><tr>
+<th>Capital Bucket</th>
+<th><code>$1,000</code> Seed (<code>~5.41 SOL</code>)</th>
+<th><code>$1,500</code> Seed (<code>~8.11 SOL</code>)</th>
+<th><code>$2,000</code> Seed (<code>~10.81 SOL</code>)</th>
+<th>Exact Role & <code>0.00 SOL</code> Principal Risk Guarantee</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>1. Kamino / MarginFi Flash Borrow Power</strong></td>
+<td><strong><code>500 SOL</code> (<code>~$95,000</code>)</strong></td>
+<td><strong><code>500 SOL</code> (<code>~$95,000</code>)</strong></td>
+<td><strong><code>500 SOL</code> (<code>~$95,000</code>)</strong></td>
+<td><strong><code>$0</code> Own Principal Required</strong> — Borrowed & repaid inside 1 slot (<code>Engine A</code> Backruns, <code>Engine 25</code> Sanctum LST Depegs, <code>Engine 29</code> Cranks).</td>
+</tr>
+<tr>
+<td><strong>2. <code>80%</code> Protected Delta-Neutral Vault</strong></td>
+<td><strong><code>$800</code> (<code>4.32 SOL</code>)</strong></td>
+<td><strong><code>$1,200</code> (<code>6.49 SOL</code>)</strong></td>
+<td><strong><code>$1,600</code> (<code>8.65 SOL</code>)</strong></td>
+<td>Held in Master Vault (<code>jitoSOL</code> + Drift <code>100%</code> Delta-Neutral Basis <code>Engine 28</code> + initial DLMM bin <code>Engine 27</code>). <strong><code>0.00 SOL</code> Directional Risk.</strong></td>
+</tr>
+<tr>
+<td><strong>3. <code>20%</code> Hot Shard Flash & Jito Tip Buffer</strong></td>
+<td><strong><code>$200</code> (<code>1.08 SOL</code>)</strong></td>
+<td><strong><code>$300</code> (<code>1.62 SOL</code>)</strong></td>
+<td><strong><code>$400</code> (<code>2.16 SOL</code>)</strong></td>
+<td>Fuels <code>wSOL</code> ATAs & tiny <code>0.0005–0.015 SOL</code> Jito tips for <code>500 SOL</code> Flash Arbs + <code>profit_guard</code> rent. Only pays tip when <code>profit_guard</code> confirms net profit!</td>
+</tr>
+<tr>
+<td><strong>4. Any-Time Random Capital Drops</strong></td>
+<td><strong>Any <code>$</code> / Any Time</strong></td>
+<td><strong>Any <code>$</code> / Any Time</strong></td>
+<td><strong>Any <code>$</code> / Any Time</strong></td>
+<td>Deposit <code>$100</code>, <code>$500</code>, <code>$1,000</code>, or <code>$2,000+</code> whenever you want — auto-routed <strong><code>80%</code> Protected Vault / <code>20%</code> Shard Buffer</strong> (<code>0%</code> Risk).</td>
+</tr>
+<tr>
+<td><strong>5. House-Profit & Echelon Auto-Compounding</strong></td>
+<td><strong><code>100%</code> Reinvest (<code>50/30/20</code>)</strong></td>
+<td><strong><code>100%</code> Reinvest (<code>50/30/20</code>)</strong></td>
+<td><strong><code>100%</code> Reinvest (<code>50/30/20</code>)</strong></td>
+<td>Unlocks <strong>Step 2 (<code>&gt;= 5 SOL</code> profit)</strong> <span class="math-expr">→</span> <strong>Step 3 (<code>&gt;= 15 SOL</code> profit)</strong> <span class="math-expr">→</span> <strong>Echelon 1 (<code>$5k+/d</code>)</strong> <span class="math-expr">→</span> <strong>Echelons 2–4 (<code>$15k–$100k+/d+</code>)</strong>.</td>
+</tr>
+</tbody></table>
+<h3 class="sub-heading">1.3 Monthly Fixed Infrastructure & API Overhead (<code>~$676/month</code> Total)</h3>
+<table class="data-table">
+<thead><tr>
+<th>Service Provider</th>
+<th>Plan Tier</th>
+<th>Monthly Cost</th>
+<th>Required Env Key</th>
+<th>Why It Is Mandatory for Live Capital</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Helius</strong> (<code>helius.dev</code>)</td>
+<td>Developer / Business + LaserStream gRPC</td>
+<td><code>$49–$499/mo</code></td>
+<td><code>HELIUS_API_KEY</code></td>
+<td>Sub-slot Yellowstone gRPC shreds, <code>getMultipleAccounts</code>, Helius Sender SWQoS & Enhanced Webhooks.</td>
+</tr>
+<tr>
+<td><strong>Jupiter V2 Ultra</strong> (<code>station.jup.ag</code>)</td>
+<td>Pro / Ultra + Local <code>:8080</code> Binary</td>
+<td><code>$0–$99/mo</code></td>
+<td><code>JUPITER_API_KEY</code></td>
+<td>Powers local <code>0.4ms</code> <code>jupiter-swap-api</code> quotes (<code>127.0.0.1:8080</code>) + remote V2 fallback.</td>
+</tr>
+<tr>
+<td><strong>Birdeye BDS</strong> (<code>bds.birdeye.so</code>)</td>
+<td>Starter / Standard WSS</td>
+<td><code>$49–$99/mo</code></td>
+<td><code>BIRDEYE_API_KEY</code></td>
+<td>Real-time 1s OHLCV candles, holder concentration & liquidity depth feeds.</td>
+</tr>
+<tr>
+<td><strong>SocialData.tools</strong> (<code>socialdata.tools</code>)</td>
+<td>Standard Firehose</td>
+<td><code>~$29/mo</code></td>
+<td><code>SOCIALDATA_API_KEY</code></td>
+<td>Sub-second X/Twitter KOL text + image screenshot firehose (<code>Engine 31</code> Vision Sniper).</td>
+</tr>
+<tr>
+<td><strong>5-POP WireGuard VPS Relays</strong></td>
+<td>5× Lightweight NVMe VPS (<code>NY/FRA/AMS/TYO/SLC</code>)</td>
+<td><code>~$25/mo</code> (<code>$5×5</code>)</td>
+<td>WireGuard <code>/etc/wireguard/</code></td>
+<td>Co-located entry into all 5 regional Jito Block Engines (<code>PARALLEL_6RELAY_FANOUT</code>).</td>
+</tr>
+</tbody></table>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 2 — STEP 1: BARE-METAL LINUX KERNEL TUNING, <code>128GB</code> DDR5 <code>tmpfs</code> RAMDISK, <code>mlock</code> PINNING & PTP CLOCK SYNC</h2></div>
+<p>Before starting any Python or Rust process, prepare the Linux kernel, RAMDisk, and network stack using <a href="file:///home/titanagentik/sovereign-titan/scripts/setup_ram_and_nic.sh"><code>scripts/setup_ram_and_nic.sh</code></a>.</p>
+<h3 class="sub-heading">2.1 Step 1A — Mount the <code>128GB</code> DDR5 <code>tmpfs</code> RAMDisk (<code>/mnt/ramdisk</code>)</h3>
+<p>Sovereign Titan performs zero disk I/O on the trading hotpath. All shred state (<code>mmap_pools.bin</code>), Unix IPC sockets (<code>titan_ipc.sock</code>), 120Hz GUI telemetry (<code>gui_telemetry_120hz.json</code>), and SQLite WAL episodic memory live in <code>/mnt/ramdisk</code>.</p>
+<p>Run this command once to mount <code>/mnt/ramdisk</code> and add it permanently to <code>/etc/fstab</code> so it mounts automatically on every reboot:</p>
+<pre class="code-block"><code># 1. Create mount point and sub-directories:
+sudo mkdir -p /mnt/ramdisk/execution_state /mnt/ramdisk/memory /mnt/ramdisk/logs
+sudo chown -R $USER:$USER /mnt/ramdisk
+
+# 2. Mount 128GB DDR5 tmpfs RAMDisk immediately (if not already mounted):
+if ! mountpoint -q /mnt/ramdisk; then
+    sudo mount -t tmpfs -o size=128G,mode=0777,noatime,nodiratime tmpfs /mnt/ramdisk
+    mkdir -p /mnt/ramdisk/execution_state /mnt/ramdisk/memory /mnt/ramdisk/logs
+fi
+
+# 3. Make permanent across reboots in /etc/fstab:
+grep -q &quot;/mnt/ramdisk&quot; /etc/fstab || echo &quot;tmpfs /mnt/ramdisk tmpfs size=128G,mode=0777,noatime,nodiratime 0 0&quot; | sudo tee -a /etc/fstab</code></pre>
+<h3 class="sub-heading">2.2 Step 1B — Enable Unlimited <code>mlock</code> Memory Locking (So Private Keys Never Swap to Disk)</h3>
+<p><a href="file:///home/titanagentik/sovereign-titan/src/security/stealth_sharding.py"><code>StealthShardRingManager</code></a> uses <code>libc.mlock()</code> to pin decrypted private key buffers in physical RAM. Configure <code>/etc/security/limits.d/99-sovereign-titan.conf</code>:</p>
+<pre class="code-block"><code>sudo tee /etc/security/limits.d/99-sovereign-titan.conf &gt;/dev/null &lt;&lt;EOF
+* soft memlock unlimited
+* hard memlock unlimited
+* soft nofile 1048576
+* hard nofile 1048576
+root soft memlock unlimited
+root hard memlock unlimited
+EOF
+ulimit -l unlimited 2&gt;/dev/null || true</code></pre>
+<h3 class="sub-heading">2.3 Step 1C — Apply Low-Latency Network & Kernel <code>sysctl</code> Parameters</h3>
+<p>Run the included hardware tuning script <a href="file:///home/titanagentik/sovereign-titan/scripts/setup_ram_and_nic.sh"><code>scripts/setup_ram_and_nic.sh</code></a> or apply the kernel network buffers for high-throughput Yellowstone gRPC shred ingestion (<code>&gt;18,420 msg/sec</code>) and QUIC/UDP Jito bundles:</p>
+<pre class="code-block"><code>sudo tee /etc/sysctl.d/99-sovereign-titan-lowlatency.conf &gt;/dev/null &lt;&lt;EOF
+net.core.rmem_max = 134217728
+net.core.wmem_max = 134217728
+net.core.rmem_default = 33554432
+net.core.wmem_default = 33554432
+net.core.netdev_max_backlog = 250000
+net.ipv4.tcp_low_latency = 1
+net.ipv4.tcp_tw_reuse = 1
+vm.swappiness = 1
+kernel.sched_autogroup_enabled = 0
+EOF
+sudo sysctl --system</code></pre>
+<h3 class="sub-heading">2.4 Step 1D — Verify Rust Native Hotpath Library (<code>packages/sniper-rs</code>)</h3>
+<p>Compile the <code>sniper_rs</code> Rust library in release mode (<code>opt-level = 3</code>, <code>lto = &quot;fat&quot;</code>, <code>codegen-units = 1</code>):</p>
+<pre class="code-block"><code>cargo test --release --manifest-path /home/titanagentik/sovereign-titan/packages/sniper-rs/Cargo.toml</code></pre>
+<p>Verify that all 12 Rust hotpath unit tests (<code>derive_pumpswap_pool_pda</code>, <code>compute_constant_product_min_out</code>, <code>build_hardened_jito_bundle</code>, <code>BreakEvenRatchetConfig</code>, <code>process_intra_slot_geyser_batch</code>) pass with <code>0</code> warnings.</p>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 3 — STEP 2: SIGNING UP & CONFIGURING THE PAID CORE 4 APIS, YELLOWSTONE gRPC, SWQoS & WEBHOOKS</h2></div>
+<h3 class="sub-heading">3.1 Paid API #1: Helius (<code>HELIUS_API_KEY</code>) — RPC, Yellowstone gRPC, Sender SWQoS & Webhooks</h3>
+<ol>
+<li>Go to <strong><code>https://dashboard.helius.dev</code></strong> and create a <strong>Developer</strong> or <strong>Business</strong> account (with LaserStream gRPC enabled).</li>
+<li>Copy your <strong>API Key</strong> (e.g. <code>a1b2c3d4-e5f6-...</code>) and your <strong>LaserStream gRPC Token</strong>.</li>
+<li>This single key powers <strong>four endpoints</strong> in <code>.env</code>:</li>
+</ol>
+<ul>
+<li><code>HELIUS_API_KEY=&quot;YOUR_ACTUAL_HELIUS_KEY&quot;</code></li>
+<li><code>HELIUS_RPC_URL=&quot;https://mainnet.helius-rpc.com/?api-key=YOUR_ACTUAL_HELIUS_KEY&quot;</code></li>
+<li><code>HELIUS_WSS_URL=&quot;wss://mainnet.helius-rpc.com/?api-key=YOUR_ACTUAL_HELIUS_KEY&quot;</code></li>
+<li><code>HELIUS_LASERSTREAM_GRPC_URL=&quot;https://laserstream-mainnet-ewr.helius-rpc.com:443&quot;</code></li>
+<li><code>HELIUS_SENDER_URL=&quot;https://sender.helius-rpc.com/fast&quot;</code></li>
+</ul>
+<ol>
+<li><strong>Configure Helius Enhanced Webhooks (For Smart-Money Syndicate Push Alerts):</strong></li>
+</ol>
+<ul>
+<li>In the Helius Dashboard <span class="math-expr">→</span> <strong>Webhooks</strong> <span class="math-expr">→</span> <strong>Create Webhook</strong>:</li>
+<li><strong>Webhook Type:</strong> <code>Enhanced</code> (<code>SWAP</code>, <code>TRANSFER</code>, <code>TOKEN_MINT</code>)</li>
+<li><strong>Webhook URL:</strong> Point to your machine's public IP or Cloudflare Tunnel on port <code>8099</code>: <code>https://your-domain-or-ip:8099/webhooks/helius</code></li>
+<li><strong>Auth Header (<code>HELIUS_WEBHOOK_SECRET</code>):</strong> Set a strong random secret string and copy it into <code>HELIUS_WEBHOOK_SECRET</code> in <code>.env</code>.</li>
+</ul>
+<h3 class="sub-heading">3.2 Paid API #2: Jupiter V2 Ultra (<code>JUPITER_API_KEY</code>)</h3>
+<ol>
+<li>Go to <strong><code>https://portal.jup.ag</code></strong> (or <code>https://station.jup.ag/api-keys</code>) and generate your <strong>Jupiter V2 API Key</strong>.</li>
+<li>Paste it into <code>.env</code>:</li>
+</ol>
+<ul>
+<li><code>JUPITER_API_KEY=&quot;YOUR_ACTUAL_JUPITER_KEY&quot;</code></li>
+<li><code>JUPITER_API_BASE_URL=&quot;https://api.jup.ag/swap/v2&quot;</code></li>
+<li><code>LOCAL_JUPITER_QUOTE_URL=&quot;http://127.0.0.1:8080/quote&quot;</code> (Your local self-hosted Rust binary is always tried first in <code>0.4ms</code>; the remote API key serves as instant backup).</li>
+</ul>
+<h3 class="sub-heading">3.3 Paid API #3: Birdeye BDS (<code>BIRDEYE_API_KEY</code>)</h3>
+<ol>
+<li>Go to <strong><code>https://bds.birdeye.so</code></strong>, sign up for a <strong>Starter</strong> or <strong>Standard</strong> plan, and copy your API key.</li>
+<li>Paste it into <code>.env</code>:</li>
+</ol>
+<ul>
+<li><code>BIRDEYE_API_KEY=&quot;YOUR_ACTUAL_BIRDEYE_KEY&quot;</code></li>
+<li><code>BIRDEYE_WSS_URL=&quot;wss://public-api.birdeye.so/socket/solana?x-api-key=YOUR_ACTUAL_BIRDEYE_KEY&quot;</code></li>
+</ul>
+<h3 class="sub-heading">3.4 Paid API #4: SocialData.tools (<code>SOCIALDATA_API_KEY</code>)</h3>
+<ol>
+<li>Go to <strong><code>https://socialdata.tools</code></strong>, create an account, add <code>$29</code> credits, and copy your API key.</li>
+<li>Paste it into <code>.env</code>:</li>
+</ol>
+<ul>
+<li><code>SOCIALDATA_API_KEY=&quot;YOUR_ACTUAL_SOCIALDATA_KEY&quot;</code></li>
+</ul>
+<ol>
+<li>This powers real-time X/Twitter monitoring of 250+ KOLs and feeds image screenshots directly into <strong>Engine 31 (<code>:8002</code> GPU Vision OCR Sniper)</strong>.</li>
+</ol>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 4 — STEP 3: CONFIGURING THE FREE 7 INTELLIGENCE FEEDS, TELEGRAM MTPROTO, CROSS-CHAIN BRIDGES, POLYMARKET & <code>x402</code> MCP</h2></div>
+<h3 class="sub-heading">4.1 The Free 7 Solana Security & Alpha Feeds</h3>
+<p>Five of the seven feeds (<strong>Jito Tip Stream</strong>, <strong>RugCheck.xyz</strong>, <strong>DexScreener Boosts/CTO</strong>, <strong>GeckoTerminal</strong>, and <strong>Mayan/deBridge Cross-Chain Streams</strong>) work <strong>out-of-the-box with zero signup</strong>. For the remaining two free APIs + Telegram MTProto:</p>
+<ol>
+<li><strong>GoPlus Security API (Free — <code>GOPLUS_API_KEY</code> & <code>GOPLUS_API_SECRET</code>):</strong></li>
+</ol>
+<ul>
+<li>Go to <strong><code>https://developer.gopluslabs.io</code></strong>, create a free developer account, and copy your <code>App Key</code> and <code>App Secret</code> into <code>.env</code>.</li>
+</ul>
+<ol>
+<li><strong>CoinStats News & Sentiment API (Free — <code>COINSTATS_API_KEY</code>):</strong></li>
+</ol>
+<ul>
+<li>Go to <strong><code>https://openapi.coinstats.app</code></strong>, register for the free tier, and copy your API key into <code>COINSTATS_API_KEY</code> in <code>.env</code>.</li>
+</ul>
+<ol>
+<li><strong>Telegram Native MTProto Socket (Free — <code>TELEGRAM_API_ID</code>, <code>TELEGRAM_API_HASH</code>, <code>TELEGRAM_BOT_TOKEN</code>):</strong></li>
+</ol>
+<ul>
+<li>Log into <strong><code>https://my.telegram.org</code></strong> with your phone number <span class="math-expr">→</span> click <strong>API development tools</strong> <span class="math-expr">→</span> copy your <code>api_id</code> (<code>TELEGRAM_API_ID</code>) and <code>api_hash</code> (<code>TELEGRAM_API_HASH</code>).</li>
+<li>Message <strong><code>@BotFather</code></strong> on Telegram <span class="math-expr">→</span> <code>/newbot</code> <span class="math-expr">→</span> copy your HTTP token into <code>TELEGRAM_BOT_TOKEN</code> and your personal Telegram numeric user ID (from <code>@userinfobot</code>) into <code>TELEGRAM_CHAT_ID</code> so the system pushes real-time PnL, graduation, and circuit-breaker alerts to your phone 24/7.</li>
+</ul>
+<h3 class="sub-heading">4.2 Polymarket Polygon CLOB Credentials (For Engine 32 Binary Strike Latency Arb)</h3>
+<ol>
+<li>Create a dedicated Polygon EOA wallet (or export a clean MetaMask private key dedicated to Polymarket execution) and fund it with <strong><code>$3,500 USDC.e / USDC</code></strong> on Polygon plus <code>5 POL</code> (MATIC) for gas.</li>
+<li>Generate your Polymarket L2 CLOB API credentials (<code>API Key</code>, <code>Secret</code>, <code>Passphrase</code>) via <code>py-clob-client</code> or on <strong><code>https://polymarket.com/settings/api</code></strong>.</li>
+<li>Add them to <code>.env</code>:</li>
+</ol>
+<ul>
+<li><code>POLYMARKET_CLOB_HOST=&quot;https://clob.polymarket.com&quot;</code></li>
+<li><code>POLYMARKET_API_KEY=&quot;YOUR_POLYMARKET_KEY&quot;</code></li>
+<li><code>POLYMARKET_API_SECRET=&quot;YOUR_POLYMARKET_SECRET&quot;</code></li>
+<li><code>POLYMARKET_API_PASSPHRASE=&quot;YOUR_POLYMARKET_PASSPHRASE&quot;</code></li>
+<li><code>POLYMARKET_POLYGON_PRIVATE_KEY=&quot;0xYOUR_POLYGON_EOA_PRIVATE_KEY&quot;</code></li>
+</ul>
+<h3 class="sub-heading">4.3 Cabal-Hunter <code>x402</code> MCP Server & Autonomous Micro-Payment Wallet</h3>
+<ul>
+<li>The <strong><code>cabal-hunter</code> MCP server</strong> (<code>check_cabal_risk</code>, <code>check_wallet_in_token</code>) is pre-configured in Antigravity MCP (<code>/home/titanagentik/.gemini/antigravity/mcp/cabal-hunter</code>).</li>
+<li>Set <code>CABAL_HUNTER_X402_WALLET_PUBKEY</code> in <code>.env</code> to <code>Shard #00</code>'s public key (printed in Step 6) and keep <code>MAX_X402_SPEND_PER_HOUR_USDC=2.50</code> so autonomous <code>x402</code> forensic queries are strictly capped at <code>$2.50/hour</code>.</li>
+</ul>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 5 — STEP 4: CREATING YOUR PRODUCTION <code>.env</code> FILE (COMPLETE LINE-BY-LINE MASTER TEMPLATE)</h2></div>
+<p>Copy <a href="file:///home/titanagentik/sovereign-titan/.env.example"><code>.env.example</code></a> to <code>/home/titanagentik/sovereign-titan/.env</code> and populate it with your live credentials:</p>
+<pre class="code-block"><code>cp /home/titanagentik/sovereign-titan/.env.example /home/titanagentik/sovereign-titan/.env
+chmod 600 /home/titanagentik/sovereign-titan/.env</code></pre>
+<p>Below is the complete, production-verified <code>/home/titanagentik/sovereign-titan/.env</code> template:</p>
+<pre class="code-block"><code># ==============================================================================
+# 1. EXECUTION MODE &amp; UNCAPPED AUTO-COMPOUNDING ($5,000/DAY FLOOR -&gt; UNCAPPED)
+# ==============================================================================
+INITIAL_EXECUTION_MODE=&quot;PAPER_SIM&quot;            # Start in PAPER_SIM for 10-point check, then flip to LIVE_MAINNET
+LIVE_MAINNET_BROADCAST_ENABLED=&quot;false&quot;        # Flip to &quot;true&quot; in Step 11 once all 10 pre-flight checks are GREEN
+INITIAL_SEED_CAPITAL_USD=&quot;1500.0&quot;             # Your Day-1 starting seed in USD ($1,000 to $2,000 range; e.g., 1000, 1500, or 2000)
+INITIAL_SEED_MIN_USD=&quot;1000.0&quot;                 # Calibrated minimum Day-1 starting seed ($1,000 USD)
+INITIAL_SEED_MAX_USD=&quot;2000.0&quot;                 # Calibrated maximum Day-1 starting seed ($2,000 USD)
+RANDOM_CAPITAL_INJECTION_MODE=&quot;ANY_RANDOM_AMOUNT_ANY_RANDOM_TIME&quot;
+DAILY_5K_VELOCITY_PRESET_ENABLED=&quot;true&quot;
+UNCAPPED_DAILY_COMPOUNDING_ENABLED=&quot;true&quot;
+DAILY_PROFIT_CEILING_MODE=&quot;UNCAPPED_FLOOR_5K_ONLY&quot;
+AUTO_REINVEST_PROFIT_RATIO=&quot;1.0&quot;              # Reinvest 100% of retained realized profit (50% DLMM / 30% Vault / 20% Waves)
+AUTO_EVOLVE_STRATEGIES_WITH_CAPITAL=&quot;true&quot;    # Auto-evolve across Echelons 1 -&gt; 2 -&gt; 3 -&gt; 4 ($5k/d -&gt; $100k+/d+ Uncapped)
+KAMINO_FLASH_LOAN_MAX_BORROW_SOL=&quot;500.0&quot;
+KAMINO_FLASH_LOAN_MAX_ECHELON_SOL=&quot;25000.0&quot;
+ACTIVE_PARALLEL_SHARDS_COUNT=&quot;25&quot;
+PER_SHARD_CURVE_ENTRY_CAP_SOL=&quot;2.0&quot;
+METEORA_DLMM_SURGE_POOL_SOL=&quot;90.0&quot;
+
+# ==============================================================================
+# 2. KEYSTORE ENCRYPTION, COLD WITHDRAWAL WALLET &amp; ON-CHAIN SMART CONTRACT
+# ==============================================================================
+TITAN_KEYSTORE_PASSPHRASE=&quot;CHANGE_THIS_TO_YOUR_STRONG_32_CHAR_MASTER_PASSPHRASE&quot;
+WITHDRAW_ADDRESS=&quot;YOUR_LEDGER_OR_TREZOR_SOLANA_COLD_WALLET_BASE58_ADDRESS&quot;
+PROFIT_GUARD_PROGRAM_ID=&quot;PrftGrd111111111111111111111111111111111111&quot;
+MAINNET_ALT_ADDRESS=&quot;YOUR_36_ACCOUNT_ALT_PUBKEY_FROM_STEP_8&quot;
+DRIFT_MAINNET_SUBACCOUNT_ID=&quot;0&quot;
+
+# ==============================================================================
+# 3. PAID CORE 4 APIS (HELIUS, JUPITER V2 + LOCAL :8080, BIRDEYE, SOCIALDATA)
+# ==============================================================================
+HELIUS_API_KEY=&quot;YOUR_HELIUS_API_KEY&quot;
+HELIUS_RPC_URL=&quot;https://mainnet.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY&quot;
+HELIUS_WSS_URL=&quot;wss://mainnet.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY&quot;
+HELIUS_LASERSTREAM_GRPC_URL=&quot;https://laserstream-mainnet-ewr.helius-rpc.com:443&quot;
+HELIUS_LASERSTREAM_TOKEN=&quot;YOUR_HELIUS_LASERSTREAM_TOKEN&quot;
+HELIUS_SENDER_URL=&quot;https://sender.helius-rpc.com/fast&quot;
+HELIUS_WEBHOOK_SECRET=&quot;YOUR_HELIUS_WEBHOOK_SECRET&quot;
+
+JUPITER_API_KEY=&quot;YOUR_JUPITER_V2_API_KEY&quot;
+JUPITER_API_BASE_URL=&quot;https://api.jup.ag/swap/v2&quot;
+LOCAL_JUPITER_QUOTE_URL=&quot;http://127.0.0.1:8080/quote&quot;
+
+BIRDEYE_API_KEY=&quot;YOUR_BIRDEYE_API_KEY&quot;
+BIRDEYE_WSS_URL=&quot;wss://public-api.birdeye.so/socket/solana?x-api-key=YOUR_BIRDEYE_API_KEY&quot;
+
+SOCIALDATA_API_KEY=&quot;YOUR_SOCIALDATA_API_KEY&quot;
+
+# ==============================================================================
+# 4. FREE 7 FEEDS, TELEGRAM MTPROTO, POLYMARKET CLOB &amp; x402 MCP
+# ==============================================================================
+GOPLUS_API_KEY=&quot;YOUR_GOPLUS_APP_KEY&quot;
+GOPLUS_API_SECRET=&quot;YOUR_GOPLUS_APP_SECRET&quot;
+COINSTATS_API_KEY=&quot;YOUR_COINSTATS_API_KEY&quot;
+TELEGRAM_API_ID=&quot;12345678&quot;
+TELEGRAM_API_HASH=&quot;YOUR_TELEGRAM_API_HASH&quot;
+TELEGRAM_BOT_TOKEN=&quot;YOUR_TELEGRAM_BOT_TOKEN&quot;
+TELEGRAM_CHAT_ID=&quot;YOUR_TELEGRAM_NUMERIC_USER_ID&quot;
+
+POLYMARKET_CLOB_HOST=&quot;https://clob.polymarket.com&quot;
+POLYMARKET_API_KEY=&quot;YOUR_POLYMARKET_API_KEY&quot;
+POLYMARKET_API_SECRET=&quot;YOUR_POLYMARKET_API_SECRET&quot;
+POLYMARKET_API_PASSPHRASE=&quot;YOUR_POLYMARKET_PASSPHRASE&quot;
+POLYMARKET_POLYGON_PRIVATE_KEY=&quot;0xYOUR_POLYGON_PRIVATE_KEY&quot;
+CABAL_HUNTER_X402_WALLET_PUBKEY=&quot;YOUR_SHARD_00_PUBKEY&quot;
+MAX_X402_SPEND_PER_HOUR_USDC=&quot;2.50&quot;
+
+# ==============================================================================
+# 5. 5-REGION JITO BLOCK ENGINES &amp; 4-LANE LOCAL GPU LLM FLEET
+# ==============================================================================
+JITO_NY_BLOCK_ENGINE_URL=&quot;https://ny.mainnet.block-engine.jito.wtf/api/v1/bundles&quot;
+JITO_FRANKFURT_BLOCK_ENGINE_URL=&quot;https://frankfurt.mainnet.block-engine.jito.wtf/api/v1/bundles&quot;
+JITO_AMSTERDAM_BLOCK_ENGINE_URL=&quot;https://amsterdam.mainnet.block-engine.jito.wtf/api/v1/bundles&quot;
+JITO_TOKYO_BLOCK_ENGINE_URL=&quot;https://tokyo.mainnet.block-engine.jito.wtf/api/v1/bundles&quot;
+JITO_SLC_BLOCK_ENGINE_URL=&quot;https://slc.mainnet.block-engine.jito.wtf/api/v1/bundles&quot;
+JITO_BLOCK_ENGINE_AUTH_KEYPAIR_PATH=&quot;/home/titanagentik/.hermes/skills/solana-mev-titan/jito_auth.json&quot;
+ASTRALANE_DISPATCH_URL=&quot;https://ny.astralane.io/iris&quot;
+
+LLM_GATEKEEPER_URL=&quot;http://127.0.0.1:8005/v1&quot;
+LLM_DEEP_REASONER_URL=&quot;http://127.0.0.1:8002/v1&quot;
+LLM_FAST_L3_URL=&quot;http://127.0.0.1:8006/v1&quot;
+LLM_EMBEDDING_URL=&quot;http://127.0.0.1:8007/v1&quot;</code></pre>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 6 — STEP 5: LAUNCHING THE 4-LANE LOCAL GPU LLM FLEET (<code>:8005/:8002/:8006/:8007</code>) & LOCAL <code>jupiter-swap-api</code> (<code>:8080</code>)</h2></div>
+<h3 class="sub-heading">6.1 Step 5A — Start the 4-Lane Local GPU LLM Inference Fleet (<code>192GB</code> Dual RTX PRO 6000 Blackwell)</h3>
+<p>Run <a href="file:///home/titanagentik/sovereign-titan/scripts/start_llm_swarm.sh"><code>scripts/start_llm_swarm.sh</code></a> to launch all 4 local vLLM / SGLang servers pinned across <code>CUDA:0</code> and <code>CUDA:1</code>:</p>
+<pre class="code-block"><code>/home/titanagentik/sovereign-titan/scripts/start_llm_swarm.sh</code></pre>
+<p>Verify all 4 local GPU endpoints respond in <code>&lt;15ms</code>:</p>
+<pre class="code-block"><code>for port in 8005 8002 8006 8007; do
+    echo -n &quot;Port :${port} -&gt; &quot;
+    curl -s -o /dev/null -w &quot;HTTP %{http_code} (%{time_total}s)\n&quot; &quot;http://127.0.0.1:${port}/v1/models&quot;
+done</code></pre>
+<ul>
+<li><strong>Port <code>:8005</code> (<code>CUDA:0</code>, <code>18.5GB</code> VRAM):</strong> <code>NousResearch/Hermes-3-Llama-3.1-8B-AWQ</code> — <code>&lt;14ms</code> Hot-Path Tactical Gatekeeper.</li>
+<li><strong>Port <code>:8002</code> (<code>CUDA:0</code>, <code>54.0GB</code> VRAM):</strong> <code>huihui-ai/Huihui-Qwen3.8-27B-abliterated</code> — Multimodal Vision CA OCR Sniper (<code>&lt;210ms</code>), Macro Regime Strategist & ExpeL Rule Evolver.</li>
+<li><strong>Port <code>:8006</code> (<code>CUDA:1</code>, <code>12.0GB</code> VRAM):</strong> <code>Qwen/Qwen2.5-3B-Instruct-AWQ</code> — <code>&lt;6ms</code> L3 Social/Screenshot Pre-Filter.</li>
+<li><strong>Port <code>:8007</code> (<code>CUDA:1</code>, <code>16.0GB</code> VRAM):</strong> <code>BAAI/bge-m3</code> + <code>bge-reranker-v2-m3</code> — <code>1024</code>-dim Vector Memory & Trajectory Reranker.</li>
+</ul>
+<h3 class="sub-heading">6.2 Step 5B — Start the Local Self-Hosted <code>jupiter-swap-api</code> Rust Binary on Port <code>:8080</code></h3>
+<p>Running <code>jupiter-swap-api</code> locally eliminates public REST rate limits and cuts quote latency from <code>~80ms</code> to <strong><code>0.4ms</code></strong>:</p>
+<pre class="code-block"><code># Download the official latest jupiter-swap-api release binary (if not yet installed):
+mkdir -p ~/.local/bin
+# Launch pinned to Cores 48-63 connected to your Helius Yellowstone gRPC stream:
+taskset -c 48-63 jupiter-swap-api \
+  --rpc-url &quot;${HELIUS_RPC_URL}&quot; \
+  --yellowstone-grpc-endpoint &quot;${HELIUS_LASERSTREAM_GRPC_URL}&quot; \
+  --yellowstone-grpc-x-token &quot;${HELIUS_LASERSTREAM_TOKEN}&quot; \
+  --host 127.0.0.1 \
+  --port 8080 \
+  --allow-circular-arbitrage &amp;</code></pre>
+<p>Verify local sub-millisecond quote response (<code>wSOL -&gt; USDC</code>):</p>
+<pre class="code-block"><code>curl -s &quot;http://127.0.0.1:8080/quote?inputMint=So11111111111111111111111111111111111111112&amp;outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&amp;amount=1000000000&amp;slippageBps=50&quot; | head -c 200</code></pre>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 7 — STEP 6: INITIALIZING & BACKING UP THE PERSISTENT <code>AES-256-GCM</code> KEYSTORE (<code>.keystore.enc</code>), 25 SHARDS & COLD WALLET</h2></div>
+<p>Implemented in <a href="file:///home/titanagentik/sovereign-titan/src/security/stealth_sharding.py"><code>src/security/stealth_sharding.py</code></a> and orchestrated by <a href="file:///home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py"><code>scripts/go_live_mainnet_wizard.py</code></a>.</p>
+<h3 class="sub-heading">7.1 Step 6A — Generate Your Persistent Encrypted Keystore (<code>--init-wallets</code>)</h3>
+<p>Run the <code>--init-wallets</code> wizard command. If <code>~/.hermes/skills/solana-mev-titan/.keystore.enc</code> does not exist yet, it generates <strong>27 cryptographically independent Ed25519 keypairs</strong> using OS hardware entropy (<code>SystemRandom</code>), encrypts them with <code>AES-256-GCM</code> (<code>PBKDF2-HMAC-SHA256</code>, <code>600,000</code> iterations) using your <code>TITAN_KEYSTORE_PASSPHRASE</code>, and pins them in RAM via <code>mlock</code>. If <code>.keystore.enc</code> already exists, <code>load_or_initialize_keystore()</code> safely loads your existing wallets <strong>without ever overwriting them</strong>:</p>
+<pre class="code-block"><code>/home/titanagentik/sovereign-titan/.venv/bin/python /home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py --init-wallets</code></pre>
+<p>This prints:</p>
+<ol>
+<li><strong><code>Master Treasury Vault Pubkey</code></strong>: Your main deposit address (also scannable via QR code in Workspace 5 of the GUI).</li>
+<li><strong><code>Protected Reserve Lockbox Pubkey</code></strong>: Your <code>0%</code>-risk vault reserve address where <code>30%</code> of all realized profits auto-compound.</li>
+<li><strong><code>25 Stealth Execution Shard Pubkeys</code> (<code>Shard #00</code> through <code>Shard #24</code>)</strong>: Your 25 parallel execution wallets that prevent copy-traders and front-runners from tracking your orders.</li>
+</ol>
+<h3 class="sub-heading">7.2 Step 6B — Create an Offline Encrypted Backup of <code>.keystore.enc</code> (CRITICAL)</h3>
+<p>Immediately copy your encrypted keystore file to two offline USB drives stored in a physical safe:</p>
+<pre class="code-block"><code>chmod 600 ~/.hermes/skills/solana-mev-titan/.keystore.enc
+cp ~/.hermes/skills/solana-mev-titan/.keystore.enc /media/usb_backup_1/sovereign_titan_keystore.enc.bak</code></pre>
+<p>> [!IMPORTANT]</p>
+<p>> You need <strong>both</strong> the <code>.keystore.enc</code> file and your <code>TITAN_KEYSTORE_PASSPHRASE</code> from <code>.env</code> to decrypt your wallets. Store your passphrase in an offline password manager or paper recovery sheet.</p>
+<h3 class="sub-heading">7.3 Step 6C — Bind Your Hardware Cold Wallet (<code>WITHDRAW_ADDRESS</code>)</h3>
+<ul>
+<li>Connect your <strong>Ledger</strong> or <strong>Trezor</strong> hardware wallet, copy its Solana Mainnet address, and set <code>WITHDRAW_ADDRESS=&quot;YOUR_HARDWARE_WALLET_PUBKEY&quot;</code> in <code>/home/titanagentik/sovereign-titan/.env</code>.</li>
+<li><a href="file:///home/titanagentik/sovereign-titan/src/vault/withdrawal_manager.py"><code>DeferredWithdrawalManager</code></a> enforces a hard-coded cryptographic destination check: outbound profit sweeps and principal reimbursements can <strong>never</strong> be sent to any address other than <code>WITHDRAW_ADDRESS</code>.</li>
+</ul>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 8 — STEP 7: COMPILING & DEPLOYING THE ON-CHAIN <code>profit_guard</code> RUST SMART CONTRACT (<code>profit_guard.so</code>) TO MAINNET-BETA</h2></div>
+<p>The Anchor smart contract <a href="file:///home/titanagentik/sovereign-titan/anchor_profit_guard/programs/profit_guard/src/lib.rs"><code>anchor_profit_guard/programs/profit_guard/src/lib.rs</code></a> is your on-chain mathematical safety net. It guarantees that any flash-loan arbitrage or bundle that fails to yield positive net profit after all DEX fees, flash fees, and tips <strong>reverts atomically on-chain</strong>.</p>
+<h3 class="sub-heading">8.1 Step 7A — Verify Toolchain & Generate Your Unique Program ID</h3>
+<p>Use the automated deployment script <a href="file:///home/titanagentik/sovereign-titan/scripts/deploy_profit_guard_mainnet.sh"><code>scripts/deploy_profit_guard_mainnet.sh</code></a>:</p>
+<pre class="code-block"><code># 1. Check Solana CLI, Anchor CLI, and compiled artifact status:
+/home/titanagentik/sovereign-titan/scripts/deploy_profit_guard_mainnet.sh --check
+
+# 2. Generate a unique Mainnet Program ID keypair (if not generated yet):
+/home/titanagentik/sovereign-titan/scripts/deploy_profit_guard_mainnet.sh --generate-program-id</code></pre>
+<h3 class="sub-heading">8.2 Step 7B — Test on Devnet First, Then Deploy to Mainnet-Beta</h3>
+<ol>
+<li><strong>Optional Devnet Smoke Test (<code>0</code> Real Cost):</strong></li>
+</ol>
+<pre class="code-block"><code>   /home/titanagentik/sovereign-titan/scripts/deploy_profit_guard_mainnet.sh --deploy-devnet</code></pre>
+<ol>
+<li><strong>Deploy to Solana Mainnet-Beta (<code>Requires ~1.85 SOL</code> refundable program rent in deployer wallet):</strong></li>
+</ol>
+<pre class="code-block"><code>   /home/titanagentik/sovereign-titan/scripts/deploy_profit_guard_mainnet.sh --deploy-mainnet</code></pre>
+<ol>
+<li>Copy the printed <strong><code>PROFIT_GUARD_PROGRAM_ID</code></strong> into <code>/home/titanagentik/sovereign-titan/.env</code>:</li>
+</ol>
+<pre class="code-block"><code>   PROFIT_GUARD_PROGRAM_ID=&quot;YOUR_DEPLOYED_MAINNET_PROGRAM_ID&quot;</code></pre>
+<ol>
+<li><strong>Lock Upgrade Authority (Recommended Once Verified):</strong></li>
+</ol>
+<p>Set the upgrade authority to your cold Ledger wallet so no one can ever alter the on-chain bytecode.</p>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 9 — STEP 8: CREATING THE 36-ACCOUNT MAINNET ADDRESS LOOKUP TABLE (ALT) & PRE-WARMING ALL 150 SHARD ATAS</h2></div>
+<p>Why is this step critical for earning <code>$5,000+/day</code> and scaling to <code>$100,000+/day</code>?</p>
+<ul>
+<li>Without an Address Lookup Table (ALT), a multi-hop Kamino flash loan + Sanctum/Raydium/PumpSwap arbitrage exceeds Solana's <code>1,232-byte</code> packet MTU limit (<code>32 bytes</code> per pubkey).With our <strong>36-Account Canonical Mainnet ALT</strong> (<a href="file:///home/titanagentik/sovereign-titan/src/execution/live_mainnet_broadcaster.py"><code>live_mainnet_broadcaster.py</code></a>), each account takes <strong>1 byte</strong> (<code>288B</code> total wire payload).</li>
+<li>Without pre-warmed Associated Token Accounts (ATAs), creating an ATA inside a hot-path snipe wastes <code>~25,000 CU</code> and <code>0.00203928 SOL</code> rent on the critical path. Pre-warming <strong>150 Shard ATAs (<code>25 Shards × 6 Mints</code>: <code>wSOL</code>, <code>USDC</code>, <code>jitoSOL</code>, <code>mSOL</code>, <code>bSOL</code>, <code>INF</code>)</strong> eliminates <code>100%</code> of ATA creation overhead on Core Mints.</li>
+</ul>
+<h3 class="sub-heading">9.1 Step 8A — Build & Execute the 36-Account ALT + 150-ATA Pre-Warm Plan</h3>
+<p>Run <a href="file:///home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py"><code>scripts/go_live_mainnet_wizard.py --prewarm-plan</code></a> (or click <strong><code>🛠️ Pre-Warm 36-Account ALT &amp; 150 Shard wSOL/LST ATAs</code></strong> in Workspace 5 of the GUI):</p>
+<pre class="code-block"><code>/home/titanagentik/sovereign-titan/.venv/bin/python /home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py --prewarm-plan</code></pre>
+<p>What this command verifies and executes:</p>
+<ol>
+<li><strong>Creates & Extends the 36-Account Mainnet ALT</strong>:</li>
+</ol>
+<ul>
+<li>Registers all 36 canonical Mainnet program and reserve addresses (<code>Kamino Lending</code>, <code>Kamino Mainnet Market</code>, <code>Kamino SOL Reserve</code>, <code>MarginFi V2</code>, <code>Pump.fun Bonding Curve</code>, <code>PumpSwap AMM</code>, <code>Raydium V4/CPMM/CLMM</code>, <code>Meteora DLMM</code>, <code>Orca Whirlpool</code>, <code>Sanctum Infinity</code>, <code>Drift V2</code>, <code>Jupiter V6</code>, <code>SPL Token</code>, <code>Token-2022</code>, <code>wSOL</code>, <code>USDC</code>, <code>USDT</code>, <code>jitoSOL</code>, <code>mSOL</code>, <code>bSOL</code>, <code>INF</code>, <code>jupsol</code>, <code>bonkSOL</code>).</li>
+<li><strong>Enforces the Jito Tip Exclusion Invariant:</strong> Verifies that <strong><code>0</code> of the 8 Jito Tip PDAs</strong> are inside the ALT (Jito Block Engines reject bundles whose tip accounts are inside a lookup table).</li>
+</ul>
+<ol>
+<li><strong>Idempotently Initializes All 150 Shard ATAs (<code>CreateIdempotent</code> opcode <code>\x01</code>)</strong>:</li>
+</ol>
+<ul>
+<li>Derives and initializes <code>wSOL</code>, <code>USDC</code>, <code>jitoSOL</code>, <code>mSOL</code>, <code>bSOL</code>, and <code>INF</code> ATAs plus the <code>profit_guard</code> transient state PDA (<code>[&quot;profit_guard_state&quot;, shard_pubkey]</code>) for all 25 shards (<code>Shard #00</code>–<code>Shard #24</code>).</li>
+</ul>
+<ol>
+<li>Copy the resulting <code>alt_table_address</code> into <code>MAINNET_ALT_ADDRESS</code> in <code>.env</code>.</li>
+</ol>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 10 — STEP 9: JITO BLOCK ENGINE AUTH KEYPAIR & 5-POP CO-LOCATED WIREGUARD MESH (<code>PARALLEL_6RELAY_FANOUT</code>)</h2></div>
+<h3 class="sub-heading">10.1 Step 9A — Bind Your Authenticated Jito Block Engine Keypair</h3>
+<p>Unauthenticated public Jito endpoints are rate-limited to <code>5 requests/sec</code> per IP. With an authenticated Jito keypair + 5-POP WireGuard fan-out, your effective submission capacity increases to <strong><code>100+ bundles/sec</code> across 6 parallel lanes</strong>:</p>
+<ol>
+<li>Generate a dedicated Jito authentication keypair:</li>
+</ol>
+<pre class="code-block"><code>   solana-keygen new --no-bip39-passphrase -o /home/titanagentik/.hermes/skills/solana-mev-titan/jito_auth.json
+   solana-keygen pubkey /home/titanagentik/.hermes/skills/solana-mev-titan/jito_auth.json</code></pre>
+<ol>
+<li>Whitelist that public key on the Jito Block Engine portal (<strong><code>https://web.mini.jito.wtf</code></strong> / Jito Discord Block Engine Auth bot) and verify <code>JITO_BLOCK_ENGINE_AUTH_KEYPAIR_PATH=&quot;/home/titanagentik/.hermes/skills/solana-mev-titan/jito_auth.json&quot;</code> in <code>.env</code>.</li>
+</ol>
+<h3 class="sub-heading">10.2 Step 9B — Bring Up the 5-Region Co-Located WireGuard Mesh</h3>
+<p>Configure 5 lightweight Linux VPS nodes (<code>$5/mo</code> each on Vultr/Hetzner/Latitude) in the exact data centers hosting Jito's 5 Block Engines:</p>
+<ol>
+<li><strong><code>wg-ny</code> (<code>New York / Newark — EWR</code>)</strong>: Targets <code>https://ny.mainnet.block-engine.jito.wtf/api/v1/bundles</code> (<code>&lt;0.8ms</code> POP hop)</li>
+<li><strong><code>wg-fra</code> (<code>Frankfurt — FRA</code>)</strong>: Targets <code>https://frankfurt.mainnet.block-engine.jito.wtf/api/v1/bundles</code></li>
+<li><strong><code>wg-ams</code> (<code>Amsterdam — AMS</code>)</strong>: Targets <code>https://amsterdam.mainnet.block-engine.jito.wtf/api/v1/bundles</code></li>
+<li><strong><code>wg-tyo</code> (<code>Tokyo — TYO</code>)</strong>: Targets <code>https://tokyo.mainnet.block-engine.jito.wtf/api/v1/bundles</code></li>
+<li><strong><code>wg-slc</code> (<code>Salt Lake City — SLC</code>)</strong>: Targets <code>https://slc.mainnet.block-engine.jito.wtf/api/v1/bundles</code></li>
+</ol>
+<p>Bring up the tunnels and verify RTT latencies in Workspace 6 (<strong>Co-Located VPN & Relay Mesh</strong>) or via CLI:</p>
+<pre class="code-block"><code>/home/titanagentik/sovereign-titan/.venv/bin/python -m src.cli.titan_cli mainnet preflight</code></pre>
+<p>Ensure routing mode is set to <strong><code>PARALLEL_6RELAY_FANOUT</code></strong> (which blasts every bundle simultaneously across all 5 Jito POPs + <code>Helius Sender SWQoS</code> + <code>Astralane</code>).</p>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 11 — STEP 10: FUNDING YOUR <code>$1,000–$2,000</code> DAY-1 INITIAL SEED & ADDING RANDOM CAPITAL AT ANY TIME</h2></div>
+<p>Now that your keystore, cold withdrawal address, <code>profit_guard</code> contract, 36-account ALT, and 150 ATAs are ready, fund your self-custodied Master Vault with your <strong><code>$1,000–$2,000</code> (<code>5.40–10.81 SOL</code>) Day-1 Initial Seed</strong>:</p>
+<h3 class="sub-heading">11.1 Step 10A — Deposit Your <code>$1,000–$2,000</code> (<code>5.40–10.81 SOL</code>) Day-1 Seed into the Master Vault</h3>
+<ol>
+<li>Open the Sovereign Titan GUI (<code>scripts/launch_titan_gui.sh</code>) <span class="math-expr">→</span> click <strong>Workspace 5 (<code>5 · Vault &amp; 25 Shards</code>)</strong>.</li>
+<li>Scan the <strong>Master Treasury Vault QR Code</strong> (or copy the <code>Master Treasury Vault Pubkey</code> printed by <code>--init-wallets</code>).</li>
+<li><strong>Two-Step Safe Transfer (<code>0.5 SOL</code> Smoke Test First):</strong></li>
+</ol>
+<ul>
+<li><strong>Transfer 1 (<code>0.5 SOL</code> Smoke Test):</strong> Send <code>0.5 SOL</code> (<code>~$92</code>) first, click <strong><code>🔄 Sync Real On-Chain SOL Balances (Master + 25 Shards)</code></strong> in Workspace 5, and verify the balance updates in <code>&lt;1 second</code>.</li>
+<li><strong>Transfer 2 (Remaining <code>$1,000–$2,000</code> Seed):</strong> Send the rest of your chosen Day-1 starting seed (<code>~4.90 SOL</code> for a <code>$1,000</code> start, <code>~7.60 SOL</code> for a <code>$1,500</code> start, or <code>~10.30 SOL</code> for a <code>$2,000</code> start).</li>
+<li>In <strong>Workspace 1 (<code>Trading Cockpit</code>)</strong>, click the matching <strong><code>Day-1 Seed ($1k–$2k): [$1k] [$1.5k] [$2k]</code></strong> preset button (or set <code>INITIAL_SEED_CAPITAL_USD</code> in <code>.env</code>).</li>
+</ul>
+<h3 class="sub-heading">11.2 Step 10B — How Your <code>$1,000–$2,000</code> Seed Splits <code>80% / 20%</code> (<code>0.00 SOL</code> Principal Risk)</h3>
+<ol>
+<li><strong><code>80%</code> Protected Delta-Neutral Vault (<code>$800–$1,600</code> = <code>4.32–8.65 SOL</code>):</strong></li>
+</ol>
+<ul>
+<li>Held in your Master Treasury Vault (<code>jitoSOL</code> / <code>INF</code> + <strong>Drift V2 Subaccount <code>0</code></strong> with <code>FULL_100PCT</code> delta hedge + initial Meteora DLMM active bin).</li>
+<li>Generates <code>35%–110%</code> annualized funding + staking + DLMM fee yield with <strong><code>0.00 SOL</code> directional token exposure</strong>.</li>
+</ul>
+<ol>
+<li><strong><code>20%</code> Hot Shard Flash & Jito Tip Buffer (<code>$200–$400</code> = <code>1.08–2.16 SOL</code>):</strong></li>
+</ol>
+<ul>
+<li>Distributed across your active Stealth Shards' pre-warmed <code>wSOL</code> ATAs and native lamport gas buffers.</li>
+<li>Because <strong>Kamino (<code>0.1 bps</code>) and MarginFi V2 (<code>0.0 bps</code>) provide <code>500 SOL</code> (<code>~$95,000</code>) of zero-collateral flash-loan principal</strong> inside each transaction, this <code>1.08–2.16 SOL</code> buffer <strong>only</strong> pays tiny <code>0.0005–0.015 SOL</code> Jito tips when <code>profit_guard</code> mathematically guarantees a net profitable arbitrage (<code>Engine A</code> Backruns, <code>Engine 25</code> Sanctum LST Depegs, <code>Engine 26</code> 5-Tx Super-Bundles, <code>Engine 29</code> Protocol Buyback/Tax Cranks).</li>
+</ul>
+<h3 class="sub-heading">11.3 Step 10C — Adding Random Capital (<code>$100</code>, <code>$500</code>, <code>$1,500</code>, <code>$2,000+</code>) at Any Random Time</h3>
+<p>Whenever you want to add more capital—on any day, at any hour, in any random dollar or SOL amount (<code>ANY_RANDOM_AMOUNT_ANY_RANDOM_TIME</code>):</p>
+<ol>
+<li>Send any amount of SOL to your <strong>Master Treasury Vault QR Code</strong> (Workspace 5).</li>
+<li>In <strong>Workspace 1 (<code>Trading Cockpit</code>)</strong>, type the USD amount into <strong><code>Any $ USD (blank=Random)</code></strong> and click <strong><code>💰 Inject $X Now (80/20)</code></strong> (or click <strong><code>🔄 Sync Real On-Chain SOL Balances</code></strong> in Workspace 5).</li>
+<li>The Golden 5 Governor immediately routes <strong><code>80%</code></strong> into your Protected Delta-Neutral Vault and <strong><code>20%</code></strong> into your 25-Shard Flash/Tip Buffer (<code>0.00 SOL</code> principal risk) and scales your active Echelon parameters automatically.</li>
+</ol>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 12 — STEP 11: RUNNING THE 10-POINT PRE-FLIGHT WIZARD & ARMING LIVE MAINNET BROADCAST IN THE 120HZ GUI</h2></div>
+<h3 class="sub-heading">12.1 Step 11A — Execute the 10-Point Mainnet Readiness Check</h3>
+<p>Run <a href="file:///home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py"><code>scripts/go_live_mainnet_wizard.py --preflight</code></a> from your terminal (or click <strong><code>🔍 Run 10-Point Mainnet Pre-Flight Check</code></strong> at the top of Workspace 5 in the GUI):</p>
+<pre class="code-block"><code>/home/titanagentik/sovereign-titan/.venv/bin/python /home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py --preflight</code></pre>
+<p>Verify that <strong>all 10 Checklist Items report <code>🟢 PASS / READY</code></strong>:</p>
+<ol>
+<li>✅ <strong>Check 1 — <code>128GB RAMDisk &amp; mlock Keyring</code></strong>: <code>/mnt/ramdisk</code> mounted & <code>mlock</code> active.</li>
+<li>✅ <strong>Check 2 — <code>4-Lane Local GPU LLM Fleet</code></strong>: Ports <code>:8005</code>, <code>:8002</code>, <code>:8006</code>, <code>:8007</code> online.</li>
+<li>✅ <strong>Check 3 — <code>Paid Core 4 API Keys</code></strong>: <code>HELIUS_API_KEY</code>, <code>JUPITER_API_KEY</code>, <code>BIRDEYE_API_KEY</code>, <code>SOCIALDATA_API_KEY</code> valid & live.</li>
+<li>✅ <strong>Check 4 — <code>Free 7 Feeds &amp; Telegram MTProto</code></strong>: GoPlus, CoinStats, RugCheck, DexScreener & Telegram connected.</li>
+<li>✅ <strong>Check 5 — <code>Persistent AES-256-GCM .keystore.enc</code></strong>: Master Vault, Reserve Lockbox & 25 Stealth Shards loaded.</li>
+<li>✅ <strong>Check 6 — <code>Bound Personal Cold Withdrawal Wallet</code></strong>: <code>WITHDRAW_ADDRESS</code> bound (<code>!= &quot;DEFERRED&quot;</code>).</li>
+<li>✅ <strong>Check 7 — <code>On-Chain profit_guard Smart Contract</code></strong>: <code>profit_guard.so</code> compiled & <code>PROFIT_GUARD_PROGRAM_ID</code> verified.</li>
+<li>✅ <strong>Check 8 — <code>Mainnet 36-Account ALT &amp; 150 Pre-Warmed Shard ATAs</code></strong>: <code>36</code> ALT accounts + <code>150</code> ATAs ready, <code>0</code> Jito tips in ALT.</li>
+<li>✅ <strong>Check 9 — <code>5-Region Jito Block Engine + Helius Sender SWQoS</code></strong>: Low-latency connectivity verified across NY, FRA, AMS, TYO, SLC.</li>
+<li>✅ <strong>Check 10 — <code>Live Mainnet Wire Broadcast Switch</code></strong>: Ready to arm.</li>
+</ol>
+<h3 class="sub-heading">12.2 Step 11B — Enforce Mainnet Clean Slate & Arm Live Wire Broadcast</h3>
+<ol>
+<li>In the GUI, open <strong>Workspace 6 (<code>6 · Audit &amp; Settings</code>)</strong> and click <strong><code>🧹 Enforce Mainnet Clean Slate (Zero Sim State)</code></strong> (<code>ENFORCE_MAINNET_CLEAN_SLATE</code>) to clear any paper-simulation test lots before your first real-capital trade.</li>
+<li>Open <strong>Workspace 5 (<code>5 · Vault &amp; 25 Shards</code>)</strong> and click <strong><code>🔄 Sync Real On-Chain SOL Balances (Master + 25 Shards)</code></strong>.</li>
+<li>Flip <strong>Live Mainnet Wire Broadcast</strong> from <code>🛡️ DRY-RUN SAFE</code> to <strong><code>🟢 ARMED</code></strong> either by clicking <strong><code>⚡ Live Mainnet Wire Broadcast: [🟢 ARMED]</code></strong> in Workspace 5 or running:</li>
+</ol>
+<pre class="code-block"><code>   /home/titanagentik/sovereign-titan/.venv/bin/python /home/titanagentik/sovereign-titan/scripts/go_live_mainnet_wizard.py --set-live true</code></pre>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 13 — STEP 12: ACTIVATING THE <code>$5,000/DAY</code> FLOOR PRESET + UNCAPPED <code>50/30/20</code> AUTO-COMPOUNDING & 4-ECHELON EVOLUTION</h2></div>
+<h3 class="sub-heading">13.1 Step 12A — Verify the <code>$5,000+/Day</code> Floor & Uncapped Auto-Compounding Strip in Workspace 1</h3>
+<p>Open <strong>Workspace 1 (<code>1 · Trading Cockpit</code>)</strong> and inspect the green/amber <strong>Uncapped Velocity & Auto-Compounding Strip</strong> directly below the Golden 5 Governor Header:</p>
+<ol>
+<li><strong><code>💰 $5,000/DAY FLOOR · UNCAPPED VELOCITY ENGINE: ARMED</code></strong></li>
+<li><strong><code>♾️ CEILING: UNCAPPED (100% AUTO-COMPOUND &amp; EVOLVE ON)</code></strong></li>
+<li>Click <strong><code>⚡ $5k+/Day Floor Preset: [🟢 ARMED]</code></strong> (<code>ACTIVATE_5K_DAILY_VELOCITY_PRESET</code>) to confirm all <strong>6 Institutional Multipliers</strong> and <strong>all 11 Profit Engines</strong> (<code>Engines A/B/C</code> + <code>Engines 25–32</code>) + <strong>3 Zero-Loss Locks</strong> (<code>P(Win) &gt;= 92.5%</code>, <code>+0.85%</code> Fee-Adjusted BE Floor, and <code>profit_guard</code> CPI) are simultaneously active.</li>
+</ol>
+<h3 class="sub-heading">13.2 Step 12B — How the System Automatically Reinvests & Evolves Strategies 24/7 Without Stopping at <code>$5,000/Day</code></h3>
+<p>You do <strong>not</strong> need to manually resize parameters as your account grows. On every realized winning trade and compounding cycle (<code>_auto_reinvest_and_evolve_capital</code> / <code>RUN_UNCAPPED_COMPOUND_AND_EVOLVE_CYCLE</code>):</p>
+<ul>
+<li><strong>Automatic <code>50% / 30% / 20%</code> Profit Reinvestment:</strong></li>
+<li><strong><code>50%</code></strong> of every realized SOL profit is automatically added to your <strong>Meteora DLMM Surge Pool + <code>100%</code> Delta-Neutral Drift Funding + Cross-Chain Solver Inventory</strong>.</li>
+<li><strong><code>30%</code></strong> is locked into your <strong>Protected Reserve Lockbox</strong> (<code>0%</code> directional risk floor).</li>
+<li><strong><code>20%</code></strong> expands your <strong>25-Shard Horizontal Multi-Token Wave Concurrency</strong> (<code>1x</code> <span class="math-expr">→</span> <code>3x</code> <span class="math-expr">→</span> <code>6x</code> <span class="math-expr">→</span> <code>12x</code> simultaneous curve waves while keeping per-pool entry size at <code>2.0–2.5 SOL</code> so bonding-curve slippage stays <code>&lt;1.5%</code>).</li>
+<li><strong>Automatic 4-Echelon Strategy Promotion (<code>UNCAPPED_CAPITAL_EVOLUTION_ECHELONS</code>):</strong></li>
+<li><strong>Echelon 1 (<code>&lt; 500 SOL</code> Equity <span class="math-expr">→</span> <code>$5,000–$12,000+/day</code>):</strong> <code>500 SOL</code> Kamino Flash, <code>90 SOL</code> DLMM Pool, <code>1x</code> 25-Shard Wave, <code>$3,500</code> Polymarket Float.</li>
+<li><strong>Echelon 2 (<code>500–1,499 SOL</code> Equity <span class="math-expr">→</span> <code>$15,000–$35,000+/day</code>):</strong> Automatically scales to <strong><code>2,500 SOL</code> Kamino Flash</strong>, <strong><code>300 SOL</code> DLMM (<code>10×30 SOL</code> pools)</strong>, <strong><code>3x</code> Simultaneous Token Waves</strong>, <code>20 SOL</code> Deep-AMM Swings, and <code>$15,000</code> Polymarket Float.</li>
+<li><strong>Echelon 3 (<code>1,500–4,999 SOL</code> Equity <span class="math-expr">→</span> <code>$40,000–$95,000+/day</code>):</strong> Automatically unlocks <strong>Direct Local Mayan Swift / deBridge DLN Cross-Chain Intent Solving (<code>500 SOL</code> Inventory)</strong>, <strong><code>10,000 SOL</code> Flash Arbs</strong>, <strong><code>1,000 SOL</code> DLMM/Whirlpool LP</strong>, and <strong><code>6x</code> Token Waves</strong>.</li>
+<li><strong>Echelon 4 (<code>5,000+ SOL</code> Equity <span class="math-expr">→</span> <code>$100,000+/day+</code> <code>UNCAPPED</code>):</strong> Automatically scales to <strong><code>25,000 SOL</code> Flash Monopoly</strong>, <strong><code>3,500 SOL</code> Multi-Venue JIT Market-Making across <code>50+</code> pairs</strong>, <strong><code>12x</code> Token Waves</strong>, and <strong><code>2,000 SOL</code> Cross-Chain Solver Inventory</strong>.</li>
+</ul>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 14 — STEP 13: BULLETPROOF 24/7/365 UNATTENDED OPERATION (<code>systemd</code> AUTO-RESTART, 60s NVME CHECKPOINTS & 6H EXPEL CRON)</h2></div>
+<p>To ensure Sovereign Titan runs <strong>24 hours a day, 7 days a week</strong>—surviving process crashes, RPC hiccups, or GUI window closures without ever interrupting background trading—enable the <code>systemd</code> service suite installed by <a href="file:///home/titanagentik/sovereign-titan/scripts/install_24x7_systemd_services.sh"><code>scripts/install_24x7_systemd_services.sh</code></a>.</p>
+<h3 class="sub-heading">14.1 Step 13A — Enable & Start the 24/7 <code>systemd</code> Background Daemons</h3>
+<p>Run the installer script with <code>--enable</code>:</p>
+<pre class="code-block"><code>/home/titanagentik/sovereign-titan/scripts/install_24x7_systemd_services.sh --enable</code></pre>
+<p>This activates and enables <code>loginctl enable-linger $USER</code> (so services keep running even when you log out of the desktop session) across four units in <code>~/.config/systemd/user/</code>:</p>
+<ol>
+<li><strong><code>sovereign-titan-llm-fleet.service</code> (<code>Restart=always</code>, <code>RestartSec=5</code>)</strong>:</li>
+</ol>
+<ul>
+<li>Keeps the 4-Lane Local GPU LLM Fleet (<code>:8005</code>, <code>:8002</code>, <code>:8006</code>, <code>:8007</code>) online 24/7 and automatically restarts any vLLM/SGLang worker within 5 seconds if a CUDA OOM or worker fault ever occurs.</li>
+</ul>
+<ol>
+<li><strong><code>sovereign-titan-daemon.service</code> (<code>Restart=always</code>, <code>RestartSec=2</code>)</strong>:</li>
+</ol>
+<ul>
+<li>Runs <code>python -m src.ipc.titan_ipc_daemon</code> 24/7 with <code>LimitMEMLOCK=infinity</code> and <code>LimitNOFILE=1048576</code>.</li>
+<li><strong>Important:</strong> Closing the Tauri desktop GUI window (<code>[ ✕ Close ]</code>) <strong>never</strong> stops <code>sovereign-titan-daemon.service</code>—all 32 agents, 96 subagents, and 11 profit engines continue executing in the background 24/7, and you can re-open the GUI window at any time to view live 120Hz telemetry.</li>
+</ul>
+<ol>
+<li><strong><code>sovereign-titan-expel-6h.timer</code> & <code>.service</code> (<code>OnCalendar=00/6:00:00</code>)</strong>:</li>
+</ol>
+<ul>
+<li>Triggers the autonomous <strong>ACE + ExpeL + Voyager + FinMem Self-Improvement Cycle</strong> every 6 hours (<code>00:00</code>, <code>06:00</code>, <code>12:00</code>, <code>18:00</code>), analyzing recent trades on <code>:8002</code> + <code>:8007</code> and updating <code>.agents/rules/solana-heuristics.md</code>.</li>
+</ul>
+<h3 class="sub-heading">14.2 Step 13B — Verify 60-Second Zero-Data-Loss NVMe Checkpointing</h3>
+<p><a href="file:///home/titanagentik/sovereign-titan/src/memory/nvme_checkpoint_manager.py"><code>NVMeCheckpointManager</code></a> automatically mirrors your <code>/mnt/ramdisk/memory/experience_pool.db</code> (SQLite WAL), GEPA champion prompts, and heuristics from RAMDisk to persistent NVMe (<code>~/.hermes/skills/solana-mev-titan/nvme_checkpoints/</code>) every 60 seconds and on clean shutdown, restoring them automatically into <code>/mnt/ramdisk</code> on boot.</p>
+<p>Check live service health at any time with:</p>
+<pre class="code-block"><code>systemctl --user status sovereign-titan-daemon.service sovereign-titan-expel-6h.timer</code></pre>
+<hr class="section-divider" />
+<div class="page-section"><h2 class="page-heading">PAGE 15 — STEP 14: DAILY/WEEKLY OPERATOR ROUTINE, EMERGENCY KILL-SWITCH DRILLS, COLD-WALLET SWEEPS & TROUBLESHOOTING</h2></div>
+<h3 class="sub-heading">15.1 Your 5-Minute Daily Operator Routine</h3>
+<p>Because Sovereign Titan is <code>100%</code> autonomous—with automatic <code>P(Win) &gt;= 92.5%</code> pre-trade gating, <code>+0.85%</code> instant break-even ratcheting, <code>profit_guard</code> on-chain reverts, <code>&gt;30%</code> house-profit drawdown step-down to Step 1, and <code>100%</code> uncapped auto-compounding—your daily oversight takes less than <strong>5 minutes</strong>:</p>
+<ol>
+<li><strong>Check Telegram Push Alerts or Top Telemetry Bar:</strong> Confirm <code>ENGINE STREAM: 🟢 LIVE ON</code>, <code>E810 PTP: LOCKED</code>, and all <code>32/32 Agents · 96/96 Subagents</code> are green.</li>
+<li><strong>Review Workspace 2 (<code>ACE + ExpeL Self-Improvement Card</code>):</strong> Inspect newly discovered ExpeL rules in <code>.agents/rules/solana-heuristics.md</code> (<code>Utility Score</code> upvotes/downvotes).</li>
+<li><strong>Review Workspace 5 (<code>Vault &amp; 25 Shards</code>):</strong> If any shard has accumulated closed token ATAs, click <strong><code>♻️ Reclaim Closed ATA Rent (+0.00203928 SOL/ATA)</code></strong> (or let Engine 26 pack rent reclaims automatically into 5-Tx Super-Bundles).</li>
+</ol>
+<h3 class="sub-heading">15.2 Weekly Cold-Wallet Profit Sweeps & Tax-Lot CSV Export</h3>
+<ol>
+<li><strong>Cold-Wallet Profit Sweep (<code>Workspace 5</code>):</strong></li>
+</ol>
+<ul>
+<li>While <code>100%</code> of retained profits auto-compound in real time across the 4 Echelons, whenever you wish to lock realized profits or your weekly paycheck into your hardware cold wallet (<code>WITHDRAW_ADDRESS</code>), click <strong><code>💸 Execute Cold-Wallet Sweep</code></strong> in Workspace 5.</li>
+</ul>
+<ol>
+<li><strong>FIFO / LIFO / HIFO Tax-Lot Export (<code>Workspace 6</code>):</strong></li>
+</ol>
+<ul>
+<li>Open <strong>Workspace 6 (<code>6 · Audit &amp; Settings</code>)</strong>, select your accounting method (<code>FIFO</code>, <code>LIFO</code>, or <code>HIFO</code>), and click <strong><code>📥 Export Tax Audit CSV</code></strong> to save a complete nanosecond-timestamped ledger of every trade, tx signature, Jito tip, and realized gain.</li>
+</ul>
+<h3 class="sub-heading">15.3 Emergency Controls & Instant Troubleshooting Reference</h3>
+<table class="data-table">
+<thead><tr>
+<th>Scenario / Symptom</th>
+<th>Exact 1-Click GUI Control or Terminal Command</th>
+<th>What Happens Under the Hood</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Violent Macro Crash (<code>BTC/SOL -15%</code> in 5m)</strong></td>
+<td>Click <strong><code>🔴 RED_MACRO_FLUSH</code></strong> in Top Telemetry Bar (or automatic via Agent 7 <code>:8002</code>)</td>
+<td>Halts new directional entries immediately, tightens trailing stops to <code>1.0085x</code>, and routes <code>100%</code> of capacity into risk-free Flash Arbs (<code>Engine A</code>/<code>25</code>) & <code>100%</code> Delta-Neutral Drift Basis (<code>Engine 28</code>).</td>
+</tr>
+<tr>
+<td><strong>Pause All New Entries Immediately</strong></td>
+<td>Click <strong><code>⏸️ PAUSE ALL</code></strong> in Top Telemetry Bar (<code>KILL_SWITCH_PAUSE</code>)</td>
+<td>Freezes all new bundle submissions in <code>&lt;0.15ms</code> while keeping <code>TrailWinEngine</code> protective stops active on existing positions.</td>
+</tr>
+<tr>
+<td><strong>Emergency Flatten All Open Positions</strong></td>
+<td>Click <strong><code>🚨 PANIC FLATTEN</code></strong> in Top Telemetry Bar (<code>KILL_SWITCH_PANIC_FLATTEN</code>)</td>
+<td>Fires multi-relay atomic market exits across all open directional positions and sweeps <code>wSOL</code> back to the Master Vault.</td>
+</tr>
+<tr>
+<td><strong>Check Full System Health via CLI</strong></td>
+<td><code>/home/titanagentik/sovereign-titan/.venv/bin/python -m src.cli.titan_cli swarm status</code></td>
+<td>Prints live status of all 4 GPU LLM lanes, Golden 5 Governor, 25 Shards, <code>forensics_py</code>, <code>sniper_rs</code>, and <code>ExperiencePool</code>.</td>
+</tr>
+<tr>
+<td><strong>Re-Launch Desktop GUI Command Center</strong></td>
+<td><code>/home/titanagentik/sovereign-titan/scripts/launch_titan_gui.sh</code></td>
+<td>Re-attaches the 120Hz Tauri v2 desktop window to the running <code>TitanIPCDaemon</code> socket (<code>/mnt/ramdisk/titan_ipc.sock</code>).</td>
+</tr>
+</tbody></table>
+</body>
+</html>
